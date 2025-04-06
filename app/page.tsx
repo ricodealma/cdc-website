@@ -88,7 +88,7 @@ export default function Home() {
                 </Link>
 
                 <Link
-                  href="https://ig.me/comunidade_do_caminho"
+                  href="https://ig.me/m/comunidade_do_caminho"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1"
@@ -106,11 +106,18 @@ export default function Home() {
                     <br />
                     Milionários, 30620070
                     <br />
-                    @comunidade_do_caminho
+                    <a
+                      href="https://www.instagram.com/comunidade_do_caminho/"
+                      className="text-primary hover:underline"
+                      target="_blank"
+                    >
+                      @comunidade_do_caminho
+                    </a>
                     <br />
                     <a
                       href="mailto:comunidadedocaminhobh@gmail.com"
                       className="text-primary hover:underline"
+                      target="_blank"
                     >
                       comunidadedocaminhobh@gmail.com
                     </a>

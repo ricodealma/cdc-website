@@ -56,6 +56,12 @@ export default function Calendario() {
             title: 'Célula',
             time: '20:00',
           });
+        } else {
+          eventos.push({
+            date: data,
+            title: 'Dia da família',
+            time: '20:00',
+          });
         }
       }
     }
@@ -202,18 +208,28 @@ export default function Calendario() {
     return dias;
   };
 
+  const isSameWeek = (date: Date): boolean => {
+    const now = new Date();
+    const startOfWeek = new Date(now);
+    startOfWeek.setDate(now.getDate() - now.getDay()); // Domingo
+    startOfWeek.setHours(0, 0, 0, 0);
+
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6); // Sábado
+    endOfWeek.setHours(23, 59, 59, 999);
+
+    return date >= startOfWeek && date <= endOfWeek;
+  };
+
+  // Renderiza apenas os eventos da semana atual
   const renderizarListaEventos = () => {
     const eventosFiltrados = eventos
-      .filter(
-        (evento) =>
-          evento.date.getMonth() === mesAtual &&
-          evento.date.getFullYear() === anoAtual
-      )
+      .filter((evento) => isSameWeek(evento.date))
       .sort((a, b) => a.date.getTime() - b.date.getTime());
 
     return (
       <div className="space-y-4 mt-8">
-        <h3 className="text-xl font-bold">Próximos Eventos</h3>
+        <h3 className="text-xl font-bold">Eventos desta Semana</h3>
         {eventosFiltrados.length > 0 ? (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {eventosFiltrados.map((evento, index) => (
@@ -236,7 +252,7 @@ export default function Calendario() {
           </div>
         ) : (
           <p className="text-muted-foreground">
-            Nenhum evento agendado para este mês.
+            Nenhum evento agendado para esta semana.
           </p>
         )}
       </div>
