@@ -1,7 +1,5 @@
 'use client';
 
-import { IEvento, Ministerios } from '@/src/domain/aggregates/evento';
-import { eventosFixos } from '@/src/infra/eventos';
 import { Button } from '@/src/presentation/components/ui/button';
 import {
   Card,
@@ -10,110 +8,29 @@ import {
   CardHeader,
   CardTitle,
 } from '@/src/presentation/components/ui/card';
+import { useData } from '@/src/presentation/hooks/paraRotas/home/calendario/useData';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useState } from 'react';
+import ModalEvento from './modalEvento';
 
 export default function Calendario() {
-  const [mesAtual, setMesAtual] = useState(new Date().getMonth());
-  const [anoAtual, setAnoAtual] = useState(new Date().getFullYear());
-
-  const hoje = new Date();
-  const diaHoje = hoje.getDate();
-  const mesHoje = hoje.getMonth();
-  const anoHoje = hoje.getFullYear();
-  const criarEventosRecorrentes = () => {
-    const eventos: IEvento[] = [];
-
-    const diasNoMes = new Date(anoAtual, mesAtual + 1, 0).getDate();
-
-    for (let dia = 1; dia <= diasNoMes; dia++) {
-      const dataHoje = new Date(anoAtual, mesAtual, dia);
-      const diaSemana = dataHoje.getDay();
-
-      // Cultos de Domingo às 18:30
-      if (diaSemana === 0) {
-        eventos.push({
-          data: dataHoje,
-          titulo: 'Culto de Domingo',
-          horario: '18:30',
-          ministerio: Ministerios.Geral,
-        });
-      }
-
-      // Reuniões de oração às terças às 20:00
-      if (diaSemana === 2) {
-        eventos.push({
-          data: dataHoje,
-          titulo: 'Reunião de Oração',
-          horario: '20:00',
-          ministerio: Ministerios.Geral,
-        });
-      }
-
-      // Células às quartas às 20:00, exceto a última do mês
-      if (diaSemana === 3) {
-        const proximaQuarta = new Date(anoAtual, mesAtual, dia + 7);
-        const ehUltimaQuarta = proximaQuarta.getMonth() !== mesAtual;
-        if (!ehUltimaQuarta) {
-          eventos.push({
-            data: dataHoje,
-            titulo: 'Célula',
-            horario: '20:00',
-            ministerio: Ministerios.Geral,
-          });
-        } else {
-          eventos.push({
-            data: dataHoje,
-            titulo: 'Dia da família',
-            horario: '20:00',
-            ministerio: Ministerios.Geral,
-          });
-        }
-      }
-    }
-
-    return eventos;
-  };
-
-  const eventos = [...eventosFixos, ...criarEventosRecorrentes()];
-
-  const meses = [
-    'Janeiro',
-    'Fevereiro',
-    'Março',
-    'Abril',
-    'Maio',
-    'Junho',
-    'Julho',
-    'Agosto',
-    'Setembro',
-    'Outubro',
-    'Novembro',
-    'Dezembro',
-  ];
-
-  const diasNoMes = (ano: number, mes: number) =>
-    new Date(ano, mes + 1, 0).getDate();
-  const primeiroDiaDoMes = (ano: number, mes: number) =>
-    new Date(ano, mes, 1).getDay();
-
-  const mesAnterior = () => {
-    if (mesAtual === 0) {
-      setMesAtual(11);
-      setAnoAtual(anoAtual - 1);
-    } else {
-      setMesAtual(mesAtual - 1);
-    }
-  };
-
-  const proximoMes = () => {
-    if (mesAtual === 11) {
-      setMesAtual(0);
-      setAnoAtual(anoAtual + 1);
-    } else {
-      setMesAtual(mesAtual + 1);
-    }
-  };
+  const {
+    diasNoMes,
+    primeiroDiaDoMes,
+    anoAtual,
+    mesAtual,
+    eventos,
+    diaHoje,
+    mesHoje,
+    anoHoje,
+    meses,
+    mesAnterior,
+    proximoMes,
+    abrirModal,
+    modalAberto,
+    fecharModal,
+    eventosSelecionados,
+    dataSelecionada,
+  } = useData();
 
   const renderizarCalendario = () => {
     const totalDias = diasNoMes(anoAtual, mesAtual);
@@ -143,9 +60,14 @@ export default function Calendario() {
       dias.push(
         <div
           key={`dia-${dia}`}
-          className={`min-h-12 border border-muted p-1 ${
-            eventosDoDia.length > 0 ? 'bg-primary/5' : 'bg-background'
+          className={`min-h-12 border border-muted p-1 cursor-pointer ${
+            eventosDoDia.length > 0
+              ? 'bg-primary/5 hover:bg-primary/10'
+              : 'bg-background'
           } ${isHoje ? 'ring-2 ring-primary rounded-md' : ''}`}
+          onClick={() =>
+            eventosDoDia.length > 0 && abrirModal(eventosDoDia, dia)
+          }
         >
           <div className="flex justify-between items-start">
             <span className="text-sm font-medium">{dia}</span>
@@ -182,17 +104,16 @@ export default function Calendario() {
   const isSameWeek = (date: Date): boolean => {
     const now = new Date();
     const startOfWeek = new Date(now);
-    startOfWeek.setDate(now.getDate() - now.getDay()); // Domingo
+    startOfWeek.setDate(now.getDate() - now.getDay());
     startOfWeek.setHours(0, 0, 0, 0);
 
     const endOfWeek = new Date(startOfWeek);
-    endOfWeek.setDate(startOfWeek.getDate() + 6); // Sábado
+    endOfWeek.setDate(startOfWeek.getDate() + 6);
     endOfWeek.setHours(23, 59, 59, 999);
 
     return date >= startOfWeek && date <= endOfWeek;
   };
 
-  // Renderiza apenas os eventos da semana atual
   const renderizarListaEventos = () => {
     const eventosFiltrados = eventos
       .filter((evento) => isSameWeek(evento.data))
@@ -261,6 +182,12 @@ export default function Calendario() {
       </div>
 
       {renderizarListaEventos()}
+      <ModalEvento
+        aberto={modalAberto}
+        aoFechar={fecharModal}
+        eventos={eventosSelecionados}
+        data={dataSelecionada}
+      />
     </div>
   );
 }
