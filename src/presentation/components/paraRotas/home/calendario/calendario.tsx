@@ -10,7 +10,10 @@ import {
 } from '@/src/presentation/components/ui/card';
 import { useData } from '@/src/presentation/hooks/paraRotas/home/calendario/useData';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { selecionaEventos } from './actions';
 import ModalEvento from './modalEvento';
+
+
 
 export default function Calendario() {
   const {

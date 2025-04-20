@@ -1,5 +1,7 @@
 import { IEvento, Ministerios } from '@/src/domain/aggregates/evento';
 import { eventosFixos } from '@/src/infra/eventos';
+import { selecionaEventos } from '@/src/presentation/components/paraRotas/home/calendario/actions';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 
 export const useData = () => {
@@ -76,6 +78,10 @@ export const useData = () => {
   };
 
   const eventos = [...eventosFixos, ...criarEventosRecorrentes()];
+
+  const query = useQuery({ queryKey: ['todos'], queryFn: selecionaEventos })
+
+  console.log(query.data)
 
   const meses = [
     'Janeiro',
