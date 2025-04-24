@@ -1,16 +1,17 @@
 export interface IEvento {
-  data: Date;
-  titulo: string;
-  horario: string;
-  ministerio: Ministerios;
+  id: number; 
+  dataHora: Date; 
+  titulo: string; 
+  ministerio: Ministerios; 
 }
 
 export enum Ministerios {
+  Geral = 1,
+  Intercessao,
   Mulheres,
   Infantil,
-  Intercessão,
   Evangelismo,
+  Midia,
   Louvor,
-  Jovens,
-  Geral,
+  Jovens
 }

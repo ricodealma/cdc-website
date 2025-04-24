@@ -18,7 +18,7 @@ const eventosFixos: IEvento[] = [
     data: new Date(2025, 3, 27),
     titulo: 'Culto do Amigo',
     horario: '18:30',
-    ministerio: Ministerios.Geral,
+    ministerio: Ministerios.Evangelismo,
   },
   {
     data: new Date(2025, 4, 1),
@@ -30,13 +30,13 @@ const eventosFixos: IEvento[] = [
     data: new Date(2025, 4, 17),
     titulo: 'Congresso de Mulheres',
     horario: '19:00',
-    ministerio: Ministerios.Geral,
+    ministerio: Ministerios.Mulheres,
   },
   {
     data: new Date(2025, 4, 18),
     titulo: 'Culto das Mulheres',
     horario: '18:30',
-    ministerio: Ministerios.Geral,
+    ministerio: Ministerios.Mulheres,
   },
   {
     data: new Date(2025, 5, 7),
@@ -54,19 +54,19 @@ const eventosFixos: IEvento[] = [
     data: new Date(2025, 7, 9),
     titulo: '24h de Adoração',
     horario: '00:00',
-    ministerio: Ministerios.Geral,
+    ministerio: Ministerios.Louvor,
   },
   {
     data: new Date(2025, 8, 21),
     titulo: 'Culto dos Jovens',
     horario: '18:30',
-    ministerio: Ministerios.Geral,
+    ministerio: Ministerios.Jovens,
   },
   {
     data: new Date(2025, 9, 5),
     titulo: 'Culto das Crianças',
     horario: '18:30',
-    ministerio: Ministerios.Geral,
+    ministerio: Ministerios.Infantil,
   },
   {
     data: new Date(2025, 9, 24),

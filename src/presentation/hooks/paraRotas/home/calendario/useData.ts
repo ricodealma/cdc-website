@@ -1,6 +1,9 @@
-import { IEvento, Ministerios } from '@/src/domain/aggregates/evento';
-import { eventosFixos } from '@/src/infra/eventos';
+import { IDiaSemana } from '@/src/domain/aggregates/diaSemana';
+import { IEvento } from '@/src/domain/aggregates/evento';
+import { selecionaDiasSemana, selecionaEventos } from '@/src/presentation/components/paraRotas/home/calendario/actions';
+import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
+
 
 export const useData = () => {
   const [mesAtual, setMesAtual] = useState(new Date().getMonth());
@@ -22,80 +25,26 @@ export const useData = () => {
   const diaHoje = hoje.getDate();
   const mesHoje = hoje.getMonth();
   const anoHoje = hoje.getFullYear();
-  console.log(mesAtual, mesHoje);
 
-  const criarEventosRecorrentes = () => {
-    const eventos: IEvento[] = [];
+  // Fetch eventos from the database
+  const eventosQuery = useQuery<IEvento[]>({
+    queryKey: ['eventos'],
+    queryFn: selecionaEventos,
+  });
 
-    const diasNoMes = new Date(anoAtual, mesAtual + 1, 0).getDate();
-
-    for (let dia = 1; dia <= diasNoMes; dia++) {
-      const dataHoje = new Date(anoAtual, mesAtual, dia);
-      const diaSemana = dataHoje.getDay();
-
-      if (diaSemana === 0) {
-        eventos.push({
-          data: dataHoje,
-          titulo: 'Culto de Domingo',
-          horario: '18:30',
-          ministerio: Ministerios.Geral,
-        });
-      }
-
-      if (diaSemana === 2) {
-        eventos.push({
-          data: dataHoje,
-          titulo: 'Reunião de Oração',
-          horario: '20:00',
-          ministerio: Ministerios.Geral,
-        });
-      }
-
-      if (diaSemana === 3) {
-        const proximaQuarta = new Date(anoAtual, mesAtual, dia + 7);
-        const ehUltimaQuarta = proximaQuarta.getMonth() !== mesAtual;
-        if (!ehUltimaQuarta) {
-          eventos.push({
-            data: dataHoje,
-            titulo: 'Célula',
-            horario: '20:00',
-            ministerio: Ministerios.Geral,
-          });
-        } else {
-          eventos.push({
-            data: dataHoje,
-            titulo: 'Dia da família',
-            horario: '20:00',
-            ministerio: Ministerios.Geral,
-          });
-        }
-      }
-    }
-
-    return eventos;
-  };
-
-  const eventos = [...eventosFixos, ...criarEventosRecorrentes()];
+  // Fetch dias da semana from the database
+  const diasQuery = useQuery<IDiaSemana[]>({
+    queryKey: ['dias'],
+    queryFn: selecionaDiasSemana,
+  });
 
   const meses = [
-    'Janeiro',
-    'Fevereiro',
-    'Março',
-    'Abril',
-    'Maio',
-    'Junho',
-    'Julho',
-    'Agosto',
-    'Setembro',
-    'Outubro',
-    'Novembro',
-    'Dezembro',
+    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro',
   ];
 
-  const diasNoMes = (ano: number, mes: number) =>
-    new Date(ano, mes + 1, 0).getDate();
-  const primeiroDiaDoMes = (ano: number, mes: number) =>
-    new Date(ano, mes, 1).getDay();
+  const diasNoMes = (ano: number, mes: number) => new Date(ano, mes + 1, 0).getDate();
+  const primeiroDiaDoMes = (ano: number, mes: number) => new Date(ano, mes, 1).getDay();
 
   const mesAnterior = () => {
     if (mesAtual === 0) {
@@ -121,7 +70,7 @@ export const useData = () => {
     primeiroDiaDoMes,
     diasNoMes,
     meses,
-    eventos,
+    eventos: eventosQuery.data || [],
     diaHoje,
     mesHoje,
     anoHoje,
@@ -132,5 +81,7 @@ export const useData = () => {
     dataSelecionada,
     eventosSelecionados,
     modalAberto,
+    eventosQuery,
+    diasQuery,
   };
 };
