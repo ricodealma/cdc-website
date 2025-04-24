@@ -10,10 +10,7 @@ import {
 } from '@/src/presentation/components/ui/card';
 import { useData } from '@/src/presentation/hooks/paraRotas/home/calendario/useData';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { selecionaEventos } from './actions';
 import ModalEvento from './modalEvento';
-
-
 
 export default function Calendario() {
   const {
@@ -33,8 +30,10 @@ export default function Calendario() {
     fecharModal,
     eventosSelecionados,
     dataSelecionada,
+    eventosQuery, // Acesso ao estado de carregamento e erro
   } = useData();
 
+  // Renderiza o calendário mensal
   const renderizarCalendario = () => {
     const totalDias = diasNoMes(anoAtual, mesAtual);
     const primeiroDia = primeiroDiaDoMes(anoAtual, mesAtual);
@@ -52,9 +51,9 @@ export default function Calendario() {
     for (let dia = 1; dia <= totalDias; dia++) {
       const eventosDoDia = eventos.filter(
         (evento) =>
-          evento.data.getDate() === dia &&
-          evento.data.getMonth() === mesAtual &&
-          evento.data.getFullYear() === anoAtual
+          evento.dataHora.getDate() === dia &&
+          evento.dataHora.getMonth() === mesAtual &&
+          evento.dataHora.getFullYear() === anoAtual
       );
 
       const isHoje =
@@ -63,11 +62,10 @@ export default function Calendario() {
       dias.push(
         <div
           key={`dia-${dia}`}
-          className={`min-h-12 border border-muted p-1 cursor-pointer ${
-            eventosDoDia.length > 0
+          className={`min-h-12 border border-muted p-1 cursor-pointer ${eventosDoDia.length > 0
               ? 'bg-primary/5 hover:bg-primary/10'
               : 'bg-background'
-          } ${isHoje ? 'ring-2 ring-primary rounded-md' : ''}`}
+            } ${isHoje ? 'ring-2 ring-primary rounded-md' : ''}`}
           onClick={() =>
             eventosDoDia.length > 0 && abrirModal(eventosDoDia, dia)
           }
@@ -104,23 +102,29 @@ export default function Calendario() {
     return dias;
   };
 
+  // Verifica se a data está na mesma semana
   const isSameWeek = (date: Date): boolean => {
     const now = new Date();
     const startOfWeek = new Date(now);
-    startOfWeek.setDate(now.getDate() - now.getDay());
+    
+    const dayOfWeek = now.getDay();
+    const diffToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+    startOfWeek.setDate(now.getDate() + diffToMonday);
     startOfWeek.setHours(0, 0, 0, 0);
-
+  
     const endOfWeek = new Date(startOfWeek);
     endOfWeek.setDate(startOfWeek.getDate() + 6);
     endOfWeek.setHours(23, 59, 59, 999);
-
+  
     return date >= startOfWeek && date <= endOfWeek;
   };
+  
 
+  // Renderiza a lista de eventos da semana atual
   const renderizarListaEventos = () => {
     const eventosFiltrados = eventos
-      .filter((evento) => isSameWeek(evento.data))
-      .sort((a, b) => a.data.getTime() - b.data.getTime());
+      .filter((evento) => isSameWeek(evento.dataHora))
+      .sort((a, b) => a.dataHora.getTime() - b.dataHora.getTime());
 
     return (
       <div className="space-y-4 mt-8">
@@ -132,7 +136,7 @@ export default function Calendario() {
                 <CardHeader className="pb-2">
                   <CardTitle className="text-lg">{evento.titulo}</CardTitle>
                   <CardDescription>
-                    {evento.data.toLocaleDateString('pt-BR', {
+                    {evento.dataHora.toLocaleDateString('pt-BR', {
                       weekday: 'long',
                       month: 'long',
                       day: 'numeric',
@@ -140,7 +144,7 @@ export default function Calendario() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm">{evento.horario}</p>
+                  <p className="text-sm">{evento.dataHora.toLocaleTimeString('pt-BR')}</p>
                 </CardContent>
               </Card>
             ))}
@@ -172,17 +176,23 @@ export default function Calendario() {
         </div>
       </div>
 
-      <div className="grid grid-cols-7 gap-px">
-        {['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'].map((dia) => (
-          <div
-            key={dia}
-            className="h-10 flex items-center justify-center bg-muted font-medium"
-          >
-            {dia}
-          </div>
-        ))}
-        {renderizarCalendario()}
-      </div>
+      {eventosQuery.isLoading ? (
+        <p>Carregando eventos...</p>
+      ) : eventosQuery.error ? (
+        <p>Erro ao carregar eventos. Tente novamente mais tarde.</p>
+      ) : (
+        <div className="grid grid-cols-7 gap-px">
+          {['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'].map((dia) => (
+            <div
+              key={dia}
+              className="h-10 flex items-center justify-center bg-muted font-medium"
+            >
+              {dia}
+            </div>
+          ))}
+          {renderizarCalendario()}
+        </div>
+      )}
 
       {renderizarListaEventos()}
       <ModalEvento
