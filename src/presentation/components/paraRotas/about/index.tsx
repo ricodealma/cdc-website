@@ -1,6 +1,8 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react'
+import React, { useState } from 'react';
 
 const AboutPage = () => {
   return (
@@ -75,7 +77,56 @@ const Comeco = () => {
 }
 
 
+const items = [
+  {
+    title: "1. Deus",
+    content:
+      "Deus é o Criador e Aquele que governa o universo. Ele existe eternamente em três pessoas: Pai, Filho e Espírito Santo.",
+  },
+  {
+    title: "2. Jesus Cristo",
+    content:
+      "Jesus é o Filho de Deus. Viveu sem pecado, morreu pelos nossos pecados, ressuscitou ao terceiro dia e voltará como Rei dos reis.",
+  },
+  {
+    title: "3. Espírito Santo",
+    content:
+      "O Espírito Santo convence do pecado, habita nos salvos, dá dons, poder, direção e nos santifica.",
+  },
+  {
+    title: "4. A Bíblia",
+    content:
+      "A Bíblia é a Palavra de Deus, infalível e autoridade final para a vida cristã. Deve ser conhecida e obedecida.",
+  },
+  {
+    title: "5. O Ser Humano",
+    content:
+      "O ser humano foi criado à imagem de Deus, mas o pecado o separou dEle. Todos pecaram e precisam de salvação.",
+  },
+  {
+    title: "6. Salvação",
+    content:
+      "A salvação é um presente de Deus, recebida pela fé em Jesus Cristo. Não pode ser conquistada por obras humanas.",
+  },
+  {
+    title: "7. Segurança Eterna",
+    content:
+      "A salvação é segura e eterna para o verdadeiro cristão. É mantida pelo poder de Deus e evidenciada por uma vida transformada.",
+  },
+  {
+    title: "8. Eternidade",
+    content:
+      "O ser humano existirá eternamente, com Deus (Céu) ou separado dEle (Inferno), conforme a decisão sobre Jesus Cristo.",
+  },
+];
+
 const BaseTeologica = () => {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const toggle = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
+
   return (
     <section className="w-full py-12 md:py-24 lg:py-32">
       <div className="container px-4 md:px-6">
@@ -87,33 +138,60 @@ const BaseTeologica = () => {
             alt="Prédio da igreja"
             className="mx-auto aspect-video overflow-hidden rounded-xl object-cover order-2 lg:order-1"
           />
+
           <div className="space-y-4 order-1 lg:order-2">
-            <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
+            <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">
               Nossa Base Teológica
             </h2>
             <p className="text-muted-foreground md:text-xl">
-              Estamos fundamentados na fé cristã histórica, afirmando a
-              autoridade das Escrituras e a centralidade de Jesus Cristo em
-              todos os aspectos de nossas vidas e ministério.
-            </p>
-            <p className="text-muted-foreground md:text-xl">
               Nossas bases teológicas incluem:
             </p>
-            <ul className="list-disc pl-6 text-muted-foreground md:text-xl space-y-2">
-              <li>A inerrância e autoridade das Escrituras</li>
-              <li>A Trindade: Pai, Filho e Espírito Santo</li>
-              <li>Salvação pela graça mediante a fé em Jesus Cristo</li>
-              <li>A importância do crescimento espiritual e discipulado</li>
-              <li>
-                O chamado para servir ao próximo e compartilhar o evangelho
-              </li>
+
+            <ul className="space-y-2 pl-4">
+              {items.map((item, index) => (
+                <li key={index} className="text-muted-foreground text-base">
+                  <button
+                    onClick={() => toggle(index)}
+                    className="flex items-start w-full text-left"
+                  >
+                    <span className="text-xl mr-2 leading-6">•</span>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between">
+                        <span className="font-medium">{item.title}</span>
+                        <svg
+                          className={`w-4 h-4 ml-2 mt-1 transition-transform ${
+                            openIndex === index ? 'rotate-180' : ''
+                          }`}
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M19 9l-7 7-7-7"
+                          />
+                        </svg>
+                      </div>
+                      {openIndex === index && (
+                        <p className="mt-2 text-sm text-muted-foreground">
+                          {item.content}
+                        </p>
+                      )}
+                    </div>
+                  </button>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
+
 
 const Lideres = () => {
   return (
