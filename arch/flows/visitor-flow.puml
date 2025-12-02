@@ -1,0 +1,17 @@
+@startuml
+actor Visitante
+participant "Next.js Frontend" as Frontend
+participant "Next.js Backend" as Backend
+participant "ORM" as ORM
+database "Supabase" as DB
+
+Visitante -> Frontend: Acessa Home Page
+Frontend -> Backend: Solicita lista de eventos
+Backend -> ORM: Query eventos futuros
+ORM -> DB: SELECT * FROM eventos WHERE data > now()
+DB --> ORM: Retorna dados
+ORM --> Backend: Retorna lista de objetos
+Backend --> Frontend: Retorna JSON
+Frontend --> Visitante: Exibe lista de eventos
+
+@enduml

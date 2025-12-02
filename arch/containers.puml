@@ -1,0 +1,19 @@
+@startuml containers
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(visitor, "Visitante", "Usuário não autenticado.")
+
+System_Boundary(c1, "Next.js App") {
+    Container(frontend, "Frontend", "Next.js (React + Tailwind)", "Interface do usuário.")
+    Container(backend, "Backend", "Next.js API Routes / Server Actions", "Lógica de backend.")
+    Container(orm, "ORM", "ORM Library", "Abstração de banco.")
+}
+
+ContainerDb(supabase, "Supabase", "Postgres", "Banco relacional externo.")
+
+Rel(visitor, frontend, "Usa", "HTTPS")
+Rel(frontend, backend, "Chama")
+Rel(backend, orm, "Utiliza")
+Rel(orm, supabase, "SQL")
+
+@enduml
