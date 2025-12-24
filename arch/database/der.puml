@@ -1,0 +1,44 @@
+@startuml
+!theme plain
+hide circle
+skinparam linetype ortho
+
+entity "Evento" as evento {
+  *id : Int <<PK>>
+  --
+  *data_hora : DateTime
+  *titulo : String(255)
+  descricao : Text
+  *ministerio_id : Int <<FK>>
+  *created_at : DateTime
+  *updated_at : DateTime
+}
+
+entity "Ministerio" as ministerio {
+  *id : Int <<PK>>
+  --
+  *nome : String(255)
+  descricao : Text
+  visao : Text
+  lider_id : Int <<FK, UK>>
+  *created_at : DateTime
+  *updated_at : DateTime
+}
+
+entity "Lider" as lider {
+  *id : Int <<PK>>
+  --
+  *nome : String(255)
+  *role : String(255)
+  foto_url : String(500)
+  email : String(255) <<UK>>
+  telefone : String(20)
+  *ativo : Boolean
+  *created_at : DateTime
+  *updated_at : DateTime
+}
+
+ministerio |o..o| lider : "Liderado por"
+ministerio ||--o{ evento : "Organiza"
+
+@enduml
