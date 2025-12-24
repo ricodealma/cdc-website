@@ -77,6 +77,16 @@ O projeto segue uma arquitetura baseada em **Clean Architecture** adaptada para 
 | **Lógica de Banco de Dados** | `src/presentation/components/paraRotas/[feature]/actions.ts` (chamando `infra`) | Buscar eventos no Supabase |
 | **Nova Entidade/Tipo** | `src/domain/aggregates/` | `IMembro`, `IDoacao` |
 
+### O acesso ao banco é **estritamente proibido** no Frontend. Todo acesso deve passar pela API Layer ou Server Actions que utilizam os Use Cases.
+
+### Modelo de Dados (DER)
+
+O diagrama abaixo representa a estrutura do banco de dados e relacionamentos:
+
+![DER](./arch/database/der.puml)
+
+*Caso o diagrama não renderize, visualize o arquivo [der.puml](./arch/database/der.puml).*
+
 ### Fluxo de Dados Típico
 1. **UI** (`presentation`) solicita dados via Server Action (`actions.ts`).
 2. **Server Action** chama o cliente do Supabase em `infra`.

@@ -1,17 +1,20 @@
-@startuml
+@startuml visitor_flow
 actor Visitante
 participant "Next.js Frontend" as Frontend
-participant "Next.js Backend" as Backend
-participant "ORM" as ORM
+participant "API Route" as API
+participant "Use Case" as UseCase
+participant "Prisma Repo" as Repo
 database "Supabase" as DB
 
 Visitante -> Frontend: Acessa Home Page
-Frontend -> Backend: Solicita lista de eventos
-Backend -> ORM: Query eventos futuros
-ORM -> DB: SELECT * FROM eventos WHERE data > now()
-DB --> ORM: Retorna dados
-ORM --> Backend: Retorna lista de objetos
-Backend --> Frontend: Retorna JSON
+Frontend -> API: GET /api/eventos
+API -> UseCase: execute()
+UseCase -> Repo: findUpcoming()
+Repo -> DB: SELECT * FROM eventos...
+DB --> Repo: Result Set
+Repo --> UseCase: Entity[]
+UseCase --> API: Entity[]
+API --> Frontend: JSON Response
 Frontend --> Visitante: Exibe lista de eventos
 
 @enduml

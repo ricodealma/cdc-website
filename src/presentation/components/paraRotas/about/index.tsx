@@ -8,7 +8,7 @@ import {
   AccordionTrigger,
 } from '../../ui/accordion';
 
-const AboutPage = () => {
+const AboutPage = async () => {
   return (
     <div className="flex min-h-screen flex-col">
       <main className="flex-1">
@@ -423,7 +423,11 @@ const BaseTeologica = () => {
   );
 };
 
-const Lideres = () => {
+import { selecionaLideres } from './actions';
+
+const Lideres = async () => {
+  const lideres = await selecionaLideres();
+
   return (
     <section className="w-full section-padding-y bg-muted/50">
       <div className="container-responsive">
@@ -438,65 +442,21 @@ const Lideres = () => {
             </p>
           </div>
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 pt-8">
-            {[
-              {
-                name: 'Adenilson Santos',
-                role: 'Pastor presidente',
-                image: '/placeholder.svg?height=300&width=300',
-              },
-              {
-                name: 'Guilhermano Júnior',
-                role: 'Presbítero',
-                image: '/placeholder.svg?height=300&width=300',
-              },
-              {
-                name: 'Daniel Ferraz',
-                role: 'Presbítero',
-                image: '/placeholder.svg?height=300&width=300',
-              },
-              {
-                name: 'Simone Marques',
-                role: 'Pastora e lider de intercessão',
-                image: '/placeholder.svg?height=300&width=300',
-              },
-              {
-                name: 'Andreia Santos',
-                role: 'Pastora',
-                image: '/placeholder.svg?height=300&width=300',
-              },
-              {
-                name: 'Meire Márcia',
-                role: 'Líder do Ministério Infantil',
-                image: '/placeholder.svg?height=300&width=300',
-              },
-              {
-                name: 'Luciana Maia',
-                role: 'Líder do Ministério de mulheres',
-                image: '/placeholder.svg?height=300&width=300',
-              },
-              {
-                name: 'Fabiane Ferraz',
-                role: 'Líder do Ministério de Evangelismo',
-                image: '/placeholder.svg?height=300&width=300',
-              },
-              {
-                name: 'Weldson Batista',
-                role: 'Líder do Ministério de Mídia',
-                image: '/placeholder.svg?height=300&width=300',
-              },
-            ].map((leader, index) => (
+            {lideres.map((leader, index) => (
               <div
-                key={index}
+                key={leader.id || index}
                 className="flex flex-col items-center space-y-2"
               >
-                <Image
-                  src={leader.image || '/placeholder.svg'}
-                  width={150}
-                  height={150}
-                  alt={leader.name}
-                  className="rounded-full object-cover h-32 w-32"
-                />
-                <h3 className="text-xl font-bold">{leader.name}</h3>
+                <div className="relative h-32 w-32">
+                  <Image
+                    src={leader.fotoUrl || '/placeholder.svg'}
+                    fill
+                    alt={leader.nome}
+                    className="rounded-full object-cover"
+                    sizes="128px"
+                  />
+                </div>
+                <h3 className="text-xl font-bold">{leader.nome}</h3>
                 <p className="text-sm text-muted-foreground">{leader.role}</p>
               </div>
             ))}

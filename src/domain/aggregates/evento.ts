@@ -1,8 +1,12 @@
 export interface IEvento {
-  id: number; 
-  dataHora: Date; 
-  titulo: string; 
-  ministerio: Ministerios; 
+  id: number;
+  dataHora: Date;
+  titulo: string;
+  descricao?: string;
+  ministerioId: number;
+  ministerio?: any; // ToDo: Definir interface IMinisterio se necessário
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export enum Ministerios {

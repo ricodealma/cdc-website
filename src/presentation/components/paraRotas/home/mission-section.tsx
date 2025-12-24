@@ -1,7 +1,6 @@
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from '@/src/presentation/components/ui/card';
@@ -29,7 +28,7 @@ export function MissionSection({ id }: MissionSectionProps) {
                 <CardTitle className="text-2xl">Visão e Propósito</CardTitle>
               </CardHeader>
               <CardContent className="flex-1">
-                <CardDescription className="text-base">
+                <div className="text-base text-muted-foreground">
                   <p>
                     <strong>Visão:</strong>
                     <br />
@@ -43,7 +42,7 @@ export function MissionSection({ id }: MissionSectionProps) {
                     glória de Deus Pai. <br />
                     <em>Romanos 8:29</em>
                   </p>
-                </CardDescription>
+                </div>
               </CardContent>
             </Card>
             <Card>
@@ -51,7 +50,7 @@ export function MissionSection({ id }: MissionSectionProps) {
                 <CardTitle className="text-2xl">Missão</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-base space-y-2">
+                <div className="text-base text-muted-foreground space-y-2">
                   <p>
                     Nossa missão como igreja é abraçar a todos com amor, dando a
                     oportunidade de fazerem parte de uma família que cresce a
@@ -62,7 +61,7 @@ export function MissionSection({ id }: MissionSectionProps) {
                     Trazendo à tona o potencial de cada um para cumprir o seu
                     propósito.
                   </p>
-                </CardDescription>
+                </div>
               </CardContent>
             </Card>
             <Card>
@@ -70,7 +69,7 @@ export function MissionSection({ id }: MissionSectionProps) {
                 <CardTitle className="text-2xl">Valores</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-base space-y-2">
+                <div className="text-base text-muted-foreground space-y-2">
                   <ul className="list-disc pl-5 text-left space-y-1">
                     <li>Amor a Deus e ao próximo.</li>
                     <li>Comprometimento com a palavra de Deus.</li>
@@ -78,7 +77,7 @@ export function MissionSection({ id }: MissionSectionProps) {
                     <li>Santidade sincera.</li>
                     <li>Serviço ao Senhor com alegria.</li>
                   </ul>
-                </CardDescription>
+                </div>
               </CardContent>
             </Card>
           </div>

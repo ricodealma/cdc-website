@@ -5,15 +5,17 @@ Person(visitor, "Visitante", "Usuário não autenticado.")
 
 System_Boundary(c1, "Next.js App") {
     Container(frontend, "Frontend", "Next.js (React + Tailwind)", "Interface do usuário.")
-    Container(backend, "Backend", "Next.js API Routes / Server Actions", "Lógica de backend.")
-    Container(orm, "ORM", "ORM Library", "Abstração de banco.")
+    Container(api, "API Layer", "Next.js API Routes", "Controllers e DTOs.")
+    Container(usecase, "Application Layer", "Use Cases", "Regras de aplicação.")
+    Container(repo, "Repository Layer", "Prisma Repositories", "Implementação de persistência.")
 }
 
 ContainerDb(supabase, "Supabase", "Postgres", "Banco relacional externo.")
 
 Rel(visitor, frontend, "Usa", "HTTPS")
-Rel(frontend, backend, "Chama")
-Rel(backend, orm, "Utiliza")
-Rel(orm, supabase, "SQL")
+Rel(frontend, api, "JSON/HTTP")
+Rel(api, usecase, "Executa")
+Rel(usecase, repo, "Chama Interface")
+Rel(repo, supabase, "Prisma Client (TCP)")
 
 @enduml
