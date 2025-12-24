@@ -29,7 +29,14 @@ export const useData = () => {
   // Fetch eventos from the database
   const eventosQuery = useQuery<IEvento[]>({
     queryKey: ['eventos'],
-    queryFn: selecionaEventos,
+    queryFn: async () => {
+      const resp = await selecionaEventos();
+      // Ensure dataHora items are Date objects if they were stringified
+      return resp.map(e => ({
+        ...e,
+        dataHora: new Date(e.dataHora)
+      }));
+    },
   });
 
   // Fetch dias da semana from the database

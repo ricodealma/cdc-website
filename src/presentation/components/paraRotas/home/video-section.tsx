@@ -24,14 +24,14 @@ export function VideoSection() {
   }, []);
 
   return (
-    <section className="w-full py-12 md:py-24 lg:py-32 bg-muted/30">
-      <div className="container px-4 md:px-6">
+    <section className="w-full section-padding-y bg-muted/30">
+      <div className="container-responsive">
         <div className="flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">
-            <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
+            <h2 className="text-fluid-4xl font-bold tracking-tighter">
               Nossa História
             </h2>
-            <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
+            <p className="mx-auto max-w-[700px] text-muted-foreground text-fluid-xl">
               Assista ao vídeo para conhecer nossa jornada e comunidade
             </p>
           </div>

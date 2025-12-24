@@ -1,0 +1,85 @@
+// This is your Prisma schema file
+// Learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ============================================
+// DOMAIN MODELS
+// ============================================
+
+/// Representa um evento da comunidade
+model Evento {
+  id           Int        @id @default(autoincrement())
+  dataHora     DateTime   @map("data_hora")
+  titulo       String     @db.VarChar(255)
+  descricao    String?    @db.Text
+  
+  // Relacionamento com Ministério
+  ministerioId Int        @map("ministerio_id")
+  ministerio   Ministerio @relation(fields: [ministerioId], references: [id])
+  
+  // Timestamps
+  createdAt    DateTime   @default(now()) @map("created_at")
+  updatedAt    DateTime   @updatedAt @map("updated_at")
+  
+  @@map("eventos")
+  @@index([dataHora])
+  @@index([ministerioId])
+}
+
+/// Representa um ministério da comunidade
+model Ministerio {
+  id        Int      @id @default(autoincrement())
+  nome      String   @unique @db.VarChar(255)
+  descricao String?  @db.Text
+  visao     String?  @db.Text
+  
+  // Relacionamento com Líderes
+  lideres   Lider[]
+  
+  // Relacionamento com Eventos
+  eventos   Evento[]
+
+  // Timestamps
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("ministerios")
+}
+
+/// Representa um líder da comunidade
+model Lider {
+  id        Int      @id @default(autoincrement())
+  nome      String   @db.VarChar(255)
+  role      String   @db.VarChar(255) // Cargo/Função ex: "Pastor presidente"
+  fotoUrl   String?  @map("foto_url") @db.VarChar(500)
+  email     String?  @unique @db.VarChar(255)
+  telefone  String?  @db.VarChar(20)
+  ativo     Boolean  @default(true)
+  
+  // Relacionamento com Ministério
+  ministerioId Int?    @map("ministerio_id")
+  ministerio   Ministerio? @relation(fields: [ministerioId], references: [id])
+  
+  // Timestamps
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  
+  @@map("lideres")
+  @@index([ativo])
+  @@index([ministerioId])
+}
+
+/// Representa um dia da semana
+model DiaSemana {
+  id   Int    @id @default(autoincrement())
+  nome String @db.VarChar(20)
+
+  @@map("dias_semana")
+}

@@ -1,0 +1,14 @@
+@startuml context
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+Person(visitor, "Visitante", "Usuário não autenticado que acessa o site.")
+
+System(nextjs, "Next.js App", "Aplicação Web (Frontend + Backend Integrado).")
+System_Ext(orm, "ORM", "Camada de abstração de dados.")
+System_Ext(supabase, "Supabase", "Banco de dados e serviços backend.")
+
+Rel(visitor, nextjs, "Acessa", "HTTPS")
+Rel(nextjs, orm, "Utiliza", "Internal")
+Rel(orm, supabase, "Lê/Escreve", "TCP/IP")
+
+@enduml

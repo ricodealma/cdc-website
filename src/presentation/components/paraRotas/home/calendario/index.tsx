@@ -4,14 +4,14 @@ interface Props {
 }
 const SecaoCalendario = ({ id }: Props) => {
   return (
-    <section id={id} className="w-full py-12 md:py-24 lg:py-32 bg-muted/50">
-      <div className="container px-4 md:px-6">
+    <section id={id} className="w-full section-padding-y bg-muted/50">
+      <div className="container-responsive">
         <div className="flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">
-            <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
+            <h2 className="text-fluid-4xl font-bold tracking-tighter">
               Calendário da Igreja
             </h2>
-            <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
+            <p className="mx-auto max-w-[700px] text-muted-foreground text-fluid-xl">
               Se mantenha atualizado com nossos eventos e cultos no decorrer do
               ano
             </p>

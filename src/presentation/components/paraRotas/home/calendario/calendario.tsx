@@ -4,7 +4,6 @@ import { Button } from '@/src/presentation/components/ui/button';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from '@/src/presentation/components/ui/card';
@@ -63,8 +62,8 @@ export default function Calendario() {
         <div
           key={`dia-${dia}`}
           className={`min-h-12 border border-muted p-1 cursor-pointer ${eventosDoDia.length > 0
-              ? 'bg-primary/5 hover:bg-primary/10'
-              : 'bg-background'
+            ? 'bg-primary/5 hover:bg-primary/10'
+            : 'bg-background'
             } ${isHoje ? 'ring-2 ring-primary rounded-md' : ''}`}
           onClick={() =>
             eventosDoDia.length > 0 && abrirModal(eventosDoDia, dia)
@@ -106,19 +105,19 @@ export default function Calendario() {
   const isSameWeek = (date: Date): boolean => {
     const now = new Date();
     const startOfWeek = new Date(now);
-    
+
     const dayOfWeek = now.getDay();
     const diffToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
     startOfWeek.setDate(now.getDate() + diffToMonday);
     startOfWeek.setHours(0, 0, 0, 0);
-  
+
     const endOfWeek = new Date(startOfWeek);
     endOfWeek.setDate(startOfWeek.getDate() + 6);
     endOfWeek.setHours(23, 59, 59, 999);
-  
+
     return date >= startOfWeek && date <= endOfWeek;
   };
-  
+
 
   // Renderiza a lista de eventos da semana atual
   const renderizarListaEventos = () => {
@@ -135,13 +134,13 @@ export default function Calendario() {
               <Card key={index}>
                 <CardHeader className="pb-2">
                   <CardTitle className="text-lg">{evento.titulo}</CardTitle>
-                  <CardDescription>
+                  <div className="text-sm text-muted-foreground">
                     {evento.dataHora.toLocaleDateString('pt-BR', {
                       weekday: 'long',
                       month: 'long',
                       day: 'numeric',
                     })}
-                  </CardDescription>
+                  </div>
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm">{evento.dataHora.toLocaleTimeString('pt-BR')}</p>

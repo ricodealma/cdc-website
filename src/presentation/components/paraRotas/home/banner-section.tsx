@@ -4,20 +4,20 @@ import React from 'react'
 const BannerSection = () => {
   return (
     <section
-      className="relative w-full py-12 md:py-24 lg:py-32 bg-cover bg-center"
+      className="relative w-full section-padding-y bg-cover bg-center"
       style={{
         backgroundImage: "url('/family.png?height=600&width=1200')",
       }}
     >
-      <div className="absolute inset-0 bg-black/50 z-0" />
+      <div className="absolute inset-0 bg-black/60 z-0" />
 
-      <div className="relative z-10 container px-4 md:px-6">
+      <div className="relative z-10 container-responsive">
         <div className="flex flex-col items-center space-y-4 text-center">
           <div className="space-y-2 p-6 rounded-lg text-white drop-shadow-lg">
-            <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
+            <h1 className="text-fluid-6xl font-bold tracking-tighter">
               Bem-vindo à Comunidade do Caminho
             </h1>
-            <p className="mx-auto max-w-[700px] md:text-xl">
+            <p className="mx-auto max-w-[700px] text-fluid-xl">
               Uma igreja e uma família
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">

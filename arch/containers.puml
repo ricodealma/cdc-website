@@ -1,0 +1,21 @@
+@startuml containers
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(visitor, "Visitante", "Usuário não autenticado.")
+
+System_Boundary(c1, "Next.js App") {
+    Container(frontend, "Frontend", "Next.js (React + Tailwind)", "Interface do usuário.")
+    Container(api, "API Layer", "Next.js API Routes", "Controllers e DTOs.")
+    Container(usecase, "Application Layer", "Use Cases", "Regras de aplicação.")
+    Container(repo, "Repository Layer", "Prisma Repositories", "Implementação de persistência.")
+}
+
+ContainerDb(supabase, "Supabase", "Postgres", "Banco relacional externo.")
+
+Rel(visitor, frontend, "Usa", "HTTPS")
+Rel(frontend, api, "JSON/HTTP")
+Rel(api, usecase, "Executa")
+Rel(usecase, repo, "Chama Interface")
+Rel(repo, supabase, "Prisma Client (TCP)")
+
+@enduml

@@ -1,7 +1,6 @@
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from '@/src/presentation/components/ui/card';
@@ -12,24 +11,24 @@ interface MissionSectionProps {
 
 export function MissionSection({ id }: MissionSectionProps) {
   return (
-    <section id={id} className="w-full py-12 md:py-24 lg:py-32">
-      <div className="container px-4 md:px-6">
+    <section id={id} className="w-full section-padding-y">
+      <div className="container-responsive">
         <div className="flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">
-            <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
+            <h2 className="text-fluid-4xl font-bold tracking-tighter">
               Visão, Missão, Propósito e Valores
             </h2>
-            <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
+            <p className="mx-auto max-w-[700px] text-muted-foreground text-fluid-xl">
               Princípios que moldam a nossa comunidade cristã
             </p>
           </div>
-          <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-3 lg:gap-8 pt-8">
-            <Card>
+          <div className="grid w-full grid-cols-1 gap-fluid-lg md:grid-cols-3 pt-8">
+            <Card className="flex flex-col min-h-[320px]">
               <CardHeader className="pb-2">
                 <CardTitle className="text-2xl">Visão e Propósito</CardTitle>
               </CardHeader>
-              <CardContent>
-                <CardDescription className="text-base">
+              <CardContent className="flex-1">
+                <div className="text-base text-muted-foreground">
                   <p>
                     <strong>Visão:</strong>
                     <br />
@@ -43,7 +42,7 @@ export function MissionSection({ id }: MissionSectionProps) {
                     glória de Deus Pai. <br />
                     <em>Romanos 8:29</em>
                   </p>
-                </CardDescription>
+                </div>
               </CardContent>
             </Card>
             <Card>
@@ -51,7 +50,7 @@ export function MissionSection({ id }: MissionSectionProps) {
                 <CardTitle className="text-2xl">Missão</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-base space-y-2">
+                <div className="text-base text-muted-foreground space-y-2">
                   <p>
                     Nossa missão como igreja é abraçar a todos com amor, dando a
                     oportunidade de fazerem parte de uma família que cresce a
@@ -62,7 +61,7 @@ export function MissionSection({ id }: MissionSectionProps) {
                     Trazendo à tona o potencial de cada um para cumprir o seu
                     propósito.
                   </p>
-                </CardDescription>
+                </div>
               </CardContent>
             </Card>
             <Card>
@@ -70,7 +69,7 @@ export function MissionSection({ id }: MissionSectionProps) {
                 <CardTitle className="text-2xl">Valores</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-base space-y-2">
+                <div className="text-base text-muted-foreground space-y-2">
                   <ul className="list-disc pl-5 text-left space-y-1">
                     <li>Amor a Deus e ao próximo.</li>
                     <li>Comprometimento com a palavra de Deus.</li>
@@ -78,7 +77,7 @@ export function MissionSection({ id }: MissionSectionProps) {
                     <li>Santidade sincera.</li>
                     <li>Serviço ao Senhor com alegria.</li>
                   </ul>
-                </CardDescription>
+                </div>
               </CardContent>
             </Card>
           </div>

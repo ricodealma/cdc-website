@@ -1,47 +1,55 @@
 "use server"
 
-import { createClient } from "@/src/infra/supabase/client"
-import { cookies } from "next/headers"
-import { IEvento, Ministerios } from '@/src/domain/aggregates/evento';
+import { IEvento } from '@/src/domain/aggregates/evento';
 import { IDiaSemana } from '@/src/domain/aggregates/diaSemana';
+import { PrismaEventoRepository } from "@/src/infra/repositories/PrismaEventoRepository"
+import { unstable_cache } from 'next/cache'
+import { prisma } from "@/src/infra/database/prisma"
 
-// Função para selecionar eventos e mapear para a interface IEvento
+const eventoRepository = new PrismaEventoRepository()
+
+/**
+ * Calculates seconds remaining until the next 00:00 (midnight)
+ */
+const getSecondsUntilMidnight = () => {
+  const now = new Date()
+  const midnight = new Date()
+  midnight.setHours(24, 0, 0, 0)
+  return Math.floor((midnight.getTime() - now.getTime()) / 1000)
+}
+
+// Função para selecionar eventos com cache
 export const selecionaEventos = async (): Promise<IEvento[]> => {
-  const supabase = await createClient(cookies());
+  const fetchEventos = unstable_cache(
+    async () => {
+      console.log('Fetching eventos from database (Cache miss)...')
+      return await eventoRepository.findAll()
+    },
+    ['eventos-calendar'],
+    {
+      revalidate: getSecondsUntilMidnight(),
+      tags: ['eventos']
+    }
+  )
 
-  const { data: eventosDb, error } = await supabase.from('eventos').select(`
-    id,
-    titulo,
-    data_hora,
-    id_ministerio
-  `);
-
-  if (error) {
-    console.error("Erro ao buscar eventos:", error);
-    return [];
-  }
-
-  return (eventosDb || []).map(evento => ({
-    id: evento.id,
-    titulo: evento.titulo,
-    dataHora: new Date(evento.data_hora),
-    ministerio: evento.id_ministerio as Ministerios,
-  }));
+  return await fetchEventos()
 }
 
 // Função para selecionar dias da semana e mapear para a interface IDiaSemana
 export const selecionaDiasSemana = async (): Promise<IDiaSemana[]> => {
-  const supabase = await createClient(cookies());
+  const fetchDias = unstable_cache(
+    async () => {
+      console.log('Fetching dias da semana from database (Cache miss)...')
+      return await prisma.diaSemana.findMany({
+        orderBy: { id: 'asc' }
+      });
+    },
+    ['dias-semana'],
+    {
+      revalidate: getSecondsUntilMidnight(),
+      tags: ['dias-semana']
+    }
+  );
 
-  const { data: diasDb, error } = await supabase.from('dias_semana').select(`
-    id,
-    nome
-  `);
-
-  if (error) {
-    console.error("Erro ao buscar dias da semana:", error);
-    return [];
-  }
-
-  return diasDb || [];
+  return await fetchDias();
 }
