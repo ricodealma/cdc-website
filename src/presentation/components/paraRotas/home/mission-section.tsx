@@ -12,23 +12,23 @@ interface MissionSectionProps {
 
 export function MissionSection({ id }: MissionSectionProps) {
   return (
-    <section id={id} className="w-full py-12 md:py-24 lg:py-32">
-      <div className="container px-4 md:px-6">
+    <section id={id} className="w-full section-padding-y">
+      <div className="container-responsive">
         <div className="flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">
-            <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
+            <h2 className="text-fluid-4xl font-bold tracking-tighter">
               Visão, Missão, Propósito e Valores
             </h2>
-            <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
+            <p className="mx-auto max-w-[700px] text-muted-foreground text-fluid-xl">
               Princípios que moldam a nossa comunidade cristã
             </p>
           </div>
-          <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-3 lg:gap-8 pt-8">
-            <Card>
+          <div className="grid w-full grid-cols-1 gap-fluid-lg md:grid-cols-3 pt-8">
+            <Card className="flex flex-col min-h-[320px]">
               <CardHeader className="pb-2">
                 <CardTitle className="text-2xl">Visão e Propósito</CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="flex-1">
                 <CardDescription className="text-base">
                   <p>
                     <strong>Visão:</strong>

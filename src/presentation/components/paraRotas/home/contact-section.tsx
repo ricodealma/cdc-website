@@ -5,13 +5,13 @@ interface Props {
 }
 const ContactSection = ({ id }: Props) => {
   return (
-    <section id={id} className="w-full py-12 md:py-24 lg:py-32">
-      <div className="container grid items-center gap-6 px-4 md:px-6 lg:grid-cols-2 lg:gap-10">
+    <section id={id} className="w-full section-padding-y">
+      <div className="container-responsive grid items-center gap-fluid-lg lg:grid-cols-2">
         <div className="space-y-2">
-          <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
+          <h2 className="text-fluid-4xl font-bold tracking-tighter">
             Junte-se a nós nesse Domingo !!
           </h2>
-          <p className="max-w-[600px] text-muted-foreground md:text-xl">
+          <p className="max-w-[600px] text-muted-foreground text-fluid-xl">
             Nós vamos amar te receber na nossa família. Cultos todos os Domingos
             de 18:30 às 21:00
           </p>
