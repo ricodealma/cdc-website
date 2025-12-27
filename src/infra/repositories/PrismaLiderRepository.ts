@@ -1,44 +1,44 @@
 /**
- * Prisma Implementation of ILiderRepository
+ * Prisma Implementation of ILeaderRepository
  */
 
 import { Prisma } from '@prisma/client';
 import { prisma } from '../database/prisma';
 import {
-    ILiderRepository,
-    CreateLiderDTO,
-    UpdateLiderDTO,
+    ILeaderRepository,
+    CreateLeaderDTO,
+    UpdateLeaderDTO,
 } from '@/src/domain/repositories/ILiderRepository';
-import { ILider } from '@/src/domain/aggregates/lider';
+import { ILeader } from '@/src/domain/aggregates/lider';
 import {
     RepositoryError,
     DuplicateEntityError,
 } from '@/src/domain/repositories/errors';
 
-export class PrismaLiderRepository implements ILiderRepository {
-    async findAll(onlyActive = true): Promise<ILider[]> {
+export class PrismaLeaderRepository implements ILeaderRepository {
+    async findAll(onlyActive = true): Promise<ILeader[]> {
         try {
-            const lideres = await prisma.lider.findMany({
+            const leaders = await prisma.lider.findMany({
                 where: onlyActive ? { ativo: true } : undefined,
                 orderBy: { nome: 'asc' },
             });
-            return lideres.map(this.toDomain);
+            return leaders.map(this.toDomain);
         } catch (error) {
-            throw new RepositoryError('Failed to find lideres', error);
+            throw new RepositoryError('Failed to find leaders', error);
         }
     }
 
-    private toDomain(prismaLider: any): ILider {
+    private toDomain(prismaLeader: any): ILeader {
         return {
-            id: prismaLider.id,
-            nome: prismaLider.nome,
-            role: prismaLider.role,
-            fotoUrl: prismaLider.fotoUrl,
-            email: prismaLider.email,
-            telefone: prismaLider.telefone,
-            ativo: prismaLider.ativo,
-            createdAt: prismaLider.createdAt,
-            updatedAt: prismaLider.updatedAt,
+            id: prismaLeader.id,
+            name: prismaLeader.nome,
+            role: prismaLeader.role,
+            photoUrl: prismaLeader.fotoUrl,
+            email: prismaLeader.email,
+            phone: prismaLeader.telefone,
+            active: prismaLeader.ativo,
+            createdAt: prismaLeader.createdAt,
+            updatedAt: prismaLeader.updatedAt,
         };
     }
 }

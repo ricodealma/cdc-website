@@ -58,13 +58,13 @@ const lideresData = [
     {
         nome: 'Daniel Ferraz',
         role: 'Presbítero',
-        image: '/placeholder.svg?height=300&width=300',
+        image: 'https://ncxrqinyqigvrqdjkmaq.supabase.co/storage/v1/object/public/cdc-website-assets/daniel.jpg',
         ministerioId: Ministerios.Geral
     },
     {
         nome: 'Simone Marques',
         role: 'Pastora e lider de intercessão',
-        image: '/placeholder.svg?height=300&width=300',
+        image: 'https://ncxrqinyqigvrqdjkmaq.supabase.co/storage/v1/object/public/cdc-website-assets/simone.jpg',
         ministerioId: Ministerios.Intercessao
     },
     {
@@ -82,13 +82,13 @@ const lideresData = [
     {
         nome: 'Luciana Maia',
         role: 'Líder do Ministério de mulheres',
-        image: '/placeholder.svg?height=300&width=300',
+        image: 'https://ncxrqinyqigvrqdjkmaq.supabase.co/storage/v1/object/public/cdc-website-assets/lu.jpg',
         ministerioId: Ministerios.Mulheres
     },
     {
         nome: 'Fabiane Ferraz',
         role: 'Líder do Ministério de Evangelismo',
-        image: '/placeholder.svg?height=300&width=300',
+        image: 'https://ncxrqinyqigvrqdjkmaq.supabase.co/storage/v1/object/public/cdc-website-assets/bia.jpg',
         ministerioId: Ministerios.Evangelismo
     },
     {
@@ -100,6 +100,7 @@ const lideresData = [
 ];
 
 const eventosData = [
+    // ========== 2025 Events ==========
     {
         data: new Date(2025, 3, 18), // Mês em JS é 0-indexed (3 = Abril)
         titulo: 'Culto Pascal',
@@ -185,12 +186,124 @@ const eventosData = [
         ministerioId: Ministerios.Geral,
     },
     {
-        data: new Date(2025, 12, 28),
+        data: new Date(2025, 11, 28), // 11 = Dezembro (mês 0-indexed)
         titulo: 'Culto de Gratidão',
         horario: '18:30',
         ministerioId: Ministerios.Geral,
     },
+
+    // ========== 2026 Events ==========
+    {
+        data: new Date(2026, 1, 11), // Fevereiro
+        titulo: 'Congresso de Mulheres',
+        horario: '19:00',
+        ministerioId: Ministerios.Mulheres,
+    },
+    {
+        data: new Date(2026, 2, 25), // Março
+        titulo: 'Aniversário da Igreja',
+        horario: '19:00',
+        ministerioId: Ministerios.Geral,
+    },
+    {
+        data: new Date(2026, 2, 26), // Março
+        titulo: 'Aniversário da Igreja',
+        horario: '18:30',
+        ministerioId: Ministerios.Geral,
+    },
+    {
+        data: new Date(2026, 3, 7), // Abril
+        titulo: 'Páscoa',
+        horario: '19:00',
+        ministerioId: Ministerios.Geral,
+    },
+    {
+        data: new Date(2026, 3, 8), // Abril
+        titulo: 'Páscoa',
+        horario: '18:30',
+        ministerioId: Ministerios.Geral,
+    },
+    {
+        data: new Date(2026, 3, 9), // Abril
+        titulo: 'Páscoa',
+        horario: '18:30',
+        ministerioId: Ministerios.Geral,
+    },
+    {
+        data: new Date(2026, 4, 27), // Maio
+        titulo: 'Pentecostes',
+        horario: '19:00',
+        ministerioId: Ministerios.Geral,
+    },
+    {
+        data: new Date(2026, 4, 28), // Maio
+        titulo: 'Pentecostes',
+        horario: '18:30',
+        ministerioId: Ministerios.Geral,
+    },
+    {
+        data: new Date(2026, 5, 17), // Junho
+        titulo: 'Encontro de Casais',
+        horario: '19:00',
+        ministerioId: Ministerios.Geral,
+    },
+    {
+        data: new Date(2026, 7, 19), // Agosto
+        titulo: '24h de Adoração',
+        horario: '00:00',
+        ministerioId: Ministerios.Louvor,
+    },
+    {
+        data: new Date(2026, 7, 20), // Agosto
+        titulo: '24h de Adoração',
+        horario: '00:00',
+        ministerioId: Ministerios.Louvor,
+    },
+    {
+        data: new Date(2026, 8, 24), // Setembro
+        titulo: 'Culto dos Jovens',
+        horario: '18:30',
+        ministerioId: Ministerios.Jovens,
+    },
+    {
+        data: new Date(2026, 9, 1), // Outubro
+        titulo: 'Culto das Crianças',
+        horario: '18:30',
+        ministerioId: Ministerios.Infantil,
+    },
+    {
+        data: new Date(2026, 9, 20), // Outubro
+        titulo: 'Acampamento e Tabernáculos',
+        horario: '00:00',
+        ministerioId: Ministerios.Geral,
+    },
+    {
+        data: new Date(2026, 9, 21), // Outubro
+        titulo: 'Acampamento e Tabernáculos',
+        horario: '00:00',
+        ministerioId: Ministerios.Geral,
+    },
+    {
+        data: new Date(2026, 9, 22), // Outubro
+        titulo: 'Acampamento e Tabernáculos',
+        horario: '00:00',
+        ministerioId: Ministerios.Geral,
+    },
+    {
+        data: new Date(2026, 11, 27), // Dezembro
+        titulo: 'Culto de Gratidão',
+        horario: '18:30',
+        ministerioId: Ministerios.Geral,
+    },
+    {
+        data: new Date(2026, 11, 31), // Dezembro
+        titulo: 'Culto da Virada',
+        horario: '22:00',
+        ministerioId: Ministerios.Geral,
+    },
 ];
+
+
 
 async function main() {
     console.log('Iniciando seed...');
@@ -253,13 +366,11 @@ async function main() {
     // No schema atual: Lider tem opcional ministerio, Ministerio tem opcional lider.
     // Vamos deixar assim por enquanto.
 
-    // 3. Criar Eventos
-    // Como não temos ID fixo para eventos, vamos limpar e recriar ou apenas adicionar?
-    // Para evitar duplicação em execuções repetidas, vamos deletar tudo e recriar
-    // (CUIDADO: Isso apaga dados existentes. Em dev é ok).
-
+    // 3. Criar Eventos (Apenas Especiais)
     await prisma.evento.deleteMany({}); // Limpa eventos antigos
     console.log('Eventos antigos removidos.');
+
+    console.log(`Total de eventos especiais a serem criados: ${eventosData.length}`);
 
     for (const evt of eventosData) {
         // Combinar data e horario

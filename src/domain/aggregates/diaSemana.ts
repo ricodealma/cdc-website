@@ -1,4 +1,4 @@
-export interface IDiaSemana {
+export interface IWeekDay {
   id: number;
-  nome: string;
+  name: string;
 }

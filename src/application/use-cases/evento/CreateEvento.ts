@@ -1,35 +1,35 @@
 /**
- * Use Case: Create Evento
+ * Use Case: Create Event
  */
 
-import { IEvento } from '@/src/domain/aggregates/evento';
-import { IEventoRepository, CreateEventoDTO } from '@/src/domain/repositories/IEventoRepository';
+import { IEvent } from '@/src/domain/aggregates/evento';
+import { IEventRepository, CreateEventDTO } from '@/src/domain/repositories/IEventoRepository';
 import { z } from 'zod';
-import { Ministerios } from '@/src/domain/aggregates/evento';
+import { Ministries } from '@/src/domain/aggregates/evento';
 
 // Input validation schema
-export const CreateEventoInputSchema = z.object({
-    titulo: z.string().min(3).max(255),
-    dataHora: z.coerce.date(),
-    descricao: z.string().optional(),
-    ministerio: z.nativeEnum(Ministerios),
+export const CreateEventInputSchema = z.object({
+    title: z.string().min(3).max(255),
+    dateTime: z.coerce.date(),
+    description: z.string().optional(),
+    ministry: z.nativeEnum(Ministries),
 });
 
-export type CreateEventoInput = z.infer<typeof CreateEventoInputSchema>;
+export type CreateEventInput = z.infer<typeof CreateEventInputSchema>;
 
-export class CreateEventoUseCase {
-    constructor(private readonly eventoRepository: IEventoRepository) { }
+export class CreateEventUseCase {
+    constructor(private readonly eventRepository: IEventRepository) { }
 
-    async execute(input: CreateEventoInput): Promise<IEvento> {
+    async execute(input: CreateEventInput): Promise<IEvent> {
         // Validate input
-        const validatedInput = CreateEventoInputSchema.parse(input);
+        const validatedInput = CreateEventInputSchema.parse(input);
 
-        // Business rule: evento cannot be in the past
-        if (validatedInput.dataHora < new Date()) {
-            throw new Error('Cannot create evento in the past');
+        // Business rule: event cannot be in the past
+        if (validatedInput.dateTime < new Date()) {
+            throw new Error('Cannot create event in the past');
         }
 
         // Execute domain operation
-        return await this.eventoRepository.create(validatedInput);
+        return await this.eventRepository.create(validatedInput);
     }
 }

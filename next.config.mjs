@@ -21,6 +21,13 @@ const nextConfig = {
   },
   images: {
     unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'ncxrqinyqigvrqdjkmaq.supabase.co',
+        pathname: '/storage/v1/object/**',
+      },
+    ],
   },
   experimental: {
     webpackBuildWorker: true,

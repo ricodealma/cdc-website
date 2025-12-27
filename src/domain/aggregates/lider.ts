@@ -1,11 +1,11 @@
-export interface ILider {
+export interface ILeader {
   id: number;
-  nome: string;
+  name: string;
   role: string;
-  fotoUrl?: string;
+  photoUrl?: string;
   email?: string;
-  telefone?: string;
-  ativo?: boolean;
+  phone?: string;
+  active?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }
