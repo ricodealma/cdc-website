@@ -58,13 +58,13 @@ const lideresData = [
     {
         nome: 'Daniel Ferraz',
         role: 'Presbítero',
-        image: 'https://ncxrqinyqigvrqdjkmaq.supabase.co/storage/v1/object/sign/cdc-website-assets/daniel.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZWQzNTQzYi0xNmM3LTQ1NTEtOTUxZS04YjVjMjIxNGM2OGMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJjZGMtd2Vic2l0ZS1hc3NldHMvZGFuaWVsLmpwZyIsImlhdCI6MTc2Njc5OTcwNywiZXhwIjoyMDgyMTU5NzA3fQ.x13X9lvjYTqMcdtzu1FQZ6SBaQotCmeIgtJ_OopRET4',
+        image: 'https://ncxrqinyqigvrqdjkmaq.supabase.co/storage/v1/object/public/cdc-website-assets/daniel.jpg',
         ministerioId: Ministerios.Geral
     },
     {
         nome: 'Simone Marques',
         role: 'Pastora e lider de intercessão',
-        image: 'https://ncxrqinyqigvrqdjkmaq.supabase.co/storage/v1/object/sign/cdc-website-assets/simone.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZWQzNTQzYi0xNmM3LTQ1NTEtOTUxZS04YjVjMjIxNGM2OGMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJjZGMtd2Vic2l0ZS1hc3NldHMvc2ltb25lLmpwZyIsImlhdCI6MTc2Njc5OTY4OSwiZXhwIjoyMDgyMTU5Njg5fQ.PErvv400I4jnMxfxBkZt9hTiQ_gPa7PVkiK5jaifVMc',
+        image: 'https://ncxrqinyqigvrqdjkmaq.supabase.co/storage/v1/object/public/cdc-website-assets/simone.jpg',
         ministerioId: Ministerios.Intercessao
     },
     {
@@ -82,13 +82,13 @@ const lideresData = [
     {
         nome: 'Luciana Maia',
         role: 'Líder do Ministério de mulheres',
-        image: 'https://ncxrqinyqigvrqdjkmaq.supabase.co/storage/v1/object/sign/cdc-website-assets/lu.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZWQzNTQzYi0xNmM3LTQ1NTEtOTUxZS04YjVjMjIxNGM2OGMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJjZGMtd2Vic2l0ZS1hc3NldHMvbHUuanBnIiwiaWF0IjoxNzY2Nzk5NjY2LCJleHAiOjIwODIxNTk2NjZ9.k1HK5W8-H8NYz-4r7zRH477PGlWlj6mUKOEjTj_V9ak',
+        image: 'https://ncxrqinyqigvrqdjkmaq.supabase.co/storage/v1/object/public/cdc-website-assets/lu.jpg',
         ministerioId: Ministerios.Mulheres
     },
     {
         nome: 'Fabiane Ferraz',
         role: 'Líder do Ministério de Evangelismo',
-        image: 'https://ncxrqinyqigvrqdjkmaq.supabase.co/storage/v1/object/sign/cdc-website-assets/bia.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZWQzNTQzYi0xNmM3LTQ1NTEtOTUxZS04YjVjMjIxNGM2OGMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJjZGMtd2Vic2l0ZS1hc3NldHMvYmlhLmpwZyIsImlhdCI6MTc2Njc5OTYxMywiZXhwIjoyMDgyMTU5NjEzfQ.Lc4FIl7mqr9s6_0G78hNMwOSaNEI8AR3otMmAKTED8E',
+        image: 'https://ncxrqinyqigvrqdjkmaq.supabase.co/storage/v1/object/public/cdc-website-assets/bia.jpg',
         ministerioId: Ministerios.Evangelismo
     },
     {
