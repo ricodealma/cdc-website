@@ -58,13 +58,13 @@ const lideresData = [
     {
         nome: 'Daniel Ferraz',
         role: 'Presbítero',
-        image: '/placeholder.svg?height=300&width=300',
+        image: 'https://ncxrqinyqigvrqdjkmaq.supabase.co/storage/v1/object/sign/cdc-website-assets/daniel.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZWQzNTQzYi0xNmM3LTQ1NTEtOTUxZS04YjVjMjIxNGM2OGMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJjZGMtd2Vic2l0ZS1hc3NldHMvZGFuaWVsLmpwZyIsImlhdCI6MTc2Njc5OTcwNywiZXhwIjoyMDgyMTU5NzA3fQ.x13X9lvjYTqMcdtzu1FQZ6SBaQotCmeIgtJ_OopRET4',
         ministerioId: Ministerios.Geral
     },
     {
         nome: 'Simone Marques',
         role: 'Pastora e lider de intercessão',
-        image: '/placeholder.svg?height=300&width=300',
+        image: 'https://ncxrqinyqigvrqdjkmaq.supabase.co/storage/v1/object/sign/cdc-website-assets/simone.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZWQzNTQzYi0xNmM3LTQ1NTEtOTUxZS04YjVjMjIxNGM2OGMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJjZGMtd2Vic2l0ZS1hc3NldHMvc2ltb25lLmpwZyIsImlhdCI6MTc2Njc5OTY4OSwiZXhwIjoyMDgyMTU5Njg5fQ.PErvv400I4jnMxfxBkZt9hTiQ_gPa7PVkiK5jaifVMc',
         ministerioId: Ministerios.Intercessao
     },
     {
@@ -82,13 +82,13 @@ const lideresData = [
     {
         nome: 'Luciana Maia',
         role: 'Líder do Ministério de mulheres',
-        image: '/placeholder.svg?height=300&width=300',
+        image: 'https://ncxrqinyqigvrqdjkmaq.supabase.co/storage/v1/object/sign/cdc-website-assets/lu.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZWQzNTQzYi0xNmM3LTQ1NTEtOTUxZS04YjVjMjIxNGM2OGMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJjZGMtd2Vic2l0ZS1hc3NldHMvbHUuanBnIiwiaWF0IjoxNzY2Nzk5NjY2LCJleHAiOjIwODIxNTk2NjZ9.k1HK5W8-H8NYz-4r7zRH477PGlWlj6mUKOEjTj_V9ak',
         ministerioId: Ministerios.Mulheres
     },
     {
         nome: 'Fabiane Ferraz',
         role: 'Líder do Ministério de Evangelismo',
-        image: '/placeholder.svg?height=300&width=300',
+        image: 'https://ncxrqinyqigvrqdjkmaq.supabase.co/storage/v1/object/sign/cdc-website-assets/bia.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZWQzNTQzYi0xNmM3LTQ1NTEtOTUxZS04YjVjMjIxNGM2OGMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJjZGMtd2Vic2l0ZS1hc3NldHMvYmlhLmpwZyIsImlhdCI6MTc2Njc5OTYxMywiZXhwIjoyMDgyMTU5NjEzfQ.Lc4FIl7mqr9s6_0G78hNMwOSaNEI8AR3otMmAKTED8E',
         ministerioId: Ministerios.Evangelismo
     },
     {
