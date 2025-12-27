@@ -30,7 +30,7 @@ const EventModal = ({ isOpen, onClose, events, date }: Props) => {
                 {event.dateTime.toLocaleTimeString('pt-BR')}
               </p>
               <p className="text-sm text-muted-foreground">
-                Ministério: {Ministries[event.ministry]}
+                Ministério: {ministryTranslations[event.ministry] || 'Geral'}
               </p>
             </div>
           ))}
@@ -38,6 +38,17 @@ const EventModal = ({ isOpen, onClose, events, date }: Props) => {
       </DialogContent>
     </Dialog>
   );
+};
+
+const ministryTranslations: Record<number, string> = {
+  [Ministries.General]: 'Geral',
+  [Ministries.Intercession]: 'Intercessão',
+  [Ministries.Women]: 'Mulheres',
+  [Ministries.Children]: 'Infantil',
+  [Ministries.Evangelism]: 'Evangelismo',
+  [Ministries.Media]: 'Mídia',
+  [Ministries.Worship]: 'Louvor',
+  [Ministries.Youth]: 'Jovens',
 };
 
 export default EventModal;
