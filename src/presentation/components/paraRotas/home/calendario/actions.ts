@@ -26,12 +26,18 @@ const generateDynamicEvents = (existingEvents: IEvent[], years: number[]): IEven
   const occupiedDates = new Set<string>();
   let virtualIdCounter = -1;
 
+  // Helper to get date key in BRT (UTC-3)
+  const getBRTDateKey = (date: Date) => {
+    // We want the components as they appear in Brazil.
+    // If we shift the absolute time by -3 hours, the UTC components of the resulting point
+    // will match the BRT components of the original point.
+    const brtTime = new Date(date.getTime() - (3 * 3600000));
+    return `${brtTime.getUTCFullYear()}-${brtTime.getUTCMonth()}-${brtTime.getUTCDate()}`;
+  };
+
   // Mark occupied dates from DB events
   existingEvents.forEach(evt => {
-    const d = new Date(evt.dateTime);
-    // Use local date parts to match the generation logic
-    const dateKey = `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
-    occupiedDates.add(dateKey);
+    occupiedDates.add(getBRTDateKey(new Date(evt.dateTime)));
   });
 
   years.forEach(year => {
@@ -47,10 +53,10 @@ const generateDynamicEvents = (existingEvents: IEvent[], years: number[]): IEven
           continue;
         }
 
-        // TUESDAY (2) - Intercession Meeting 20:00
+        // TUESDAY (2) - Intercession Meeting 20:00 BRT
         if (dayOfWeek === 2) {
-          const evtDate = new Date(year, month, day);
-          evtDate.setHours(20, 0, 0, 0);
+          // 20:00 BRT is 23:00 UTC
+          const evtDate = new Date(Date.UTC(year, month, day, 23, 0, 0));
           generatedEvents.push({
             id: virtualIdCounter--,
             dateTime: evtDate,
@@ -60,10 +66,10 @@ const generateDynamicEvents = (existingEvents: IEvent[], years: number[]): IEven
           });
         }
 
-        // SUNDAY (0) - Celebration Service 18:30
+        // SUNDAY (0) - Celebration Service 18:30 BRT
         if (dayOfWeek === 0) {
-          const evtDate = new Date(year, month, day);
-          evtDate.setHours(18, 30, 0, 0);
+          // 18:30 BRT is 21:30 UTC
+          const evtDate = new Date(Date.UTC(year, month, day, 21, 30, 0));
           generatedEvents.push({
             id: virtualIdCounter--,
             dateTime: evtDate,
@@ -73,13 +79,10 @@ const generateDynamicEvents = (existingEvents: IEvent[], years: number[]): IEven
           });
         }
 
-        // WEDNESDAY (3) - Family Cell 20:00 (except last wednesday of the month)
+        // WEDNESDAY (3) - Family Cell 20:00 BRT (except last wednesday of the month)
         if (dayOfWeek === 3 && (day + 7 <= daysInMonth)) {
-          console.log(dayOfWeek)
-          console.log(day)
-          console.log(daysInMonth)
-          const evtDate = new Date(year, month, day);
-          evtDate.setHours(20, 0, 0, 0);
+          // 20:00 BRT is 23:00 UTC
+          const evtDate = new Date(Date.UTC(year, month, day, 23, 0, 0));
           generatedEvents.push({
             id: virtualIdCounter--,
             dateTime: evtDate,
@@ -115,7 +118,7 @@ export const fetchEvents = async (): Promise<IEvent[]> => {
 
       return allEvents
     },
-    ['eventos-calendar'],
+    ['eventos-calendar-v3'], // Update key to force refresh
     {
       revalidate: getSecondsUntilMidnight(),
       tags: ['eventos']

@@ -27,7 +27,10 @@ const EventModal = ({ isOpen, onClose, events, date }: Props) => {
             <div key={index} className="border p-2 rounded-md bg-muted/20">
               <p className="font-semibold">{event.title}</p>
               <p className="text-sm text-muted-foreground">
-                {event.dateTime.toLocaleTimeString('pt-BR')}
+                {event.dateTime.toLocaleTimeString('pt-BR', {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
               </p>
               <p className="text-sm text-muted-foreground">
                 Ministério: {ministryTranslations[event.ministry] || 'Geral'}
