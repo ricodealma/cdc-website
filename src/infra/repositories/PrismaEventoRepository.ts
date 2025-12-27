@@ -105,14 +105,14 @@ export class PrismaEventRepository implements IEventRepository {
      */
     private mapMinistryToDb(ministry: Ministries): string {
         const map: Record<Ministries, string> = {
-            [Ministries.General]: 'GERAL',
-            [Ministries.Intercession]: 'INTERCESSAO',
-            [Ministries.Women]: 'MULHERES',
-            [Ministries.Children]: 'INFANTIL',
-            [Ministries.Evangelism]: 'EVANGELISMO',
-            [Ministries.Media]: 'MIDIA',
-            [Ministries.Worship]: 'LOUVOR',
-            [Ministries.Youth]: 'JOVENS',
+            [Ministries.General]: 'Geral',
+            [Ministries.Intercession]: 'Intercessão',
+            [Ministries.Women]: 'Mulheres',
+            [Ministries.Children]: 'Infantil',
+            [Ministries.Evangelism]: 'Evangelismo',
+            [Ministries.Media]: 'Mídia',
+            [Ministries.Worship]: 'Louvor',
+            [Ministries.Youth]: 'Jovens',
         };
         return map[ministry];
     }
@@ -122,14 +122,14 @@ export class PrismaEventRepository implements IEventRepository {
      */
     private mapMinistryToDomain(ministry: string): Ministries {
         const map: Record<string, Ministries> = {
-            GERAL: Ministries.General,
-            INTERCESSAO: Ministries.Intercession,
-            MULHERES: Ministries.Women,
-            INFANTIL: Ministries.Children,
-            EVANGELISMO: Ministries.Evangelism,
-            MIDIA: Ministries.Media,
-            LOUVOR: Ministries.Worship,
-            JOVENS: Ministries.Youth,
+            Geral: Ministries.General,
+            Intercessão: Ministries.Intercession,
+            Mulheres: Ministries.Women,
+            Infantil: Ministries.Children,
+            Evangelismo: Ministries.Evangelism,
+            Mídia: Ministries.Media,
+            Louvor: Ministries.Worship,
+            Jovens: Ministries.Youth,
         };
         return map[ministry] ?? Ministries.General;
     }
