@@ -1,40 +1,40 @@
 /**
- * Repository Interface for Evento
+ * Repository Interface for Event
  * 
  * Defines the contract for data access operations.
  * This interface belongs to the domain layer and is framework-agnostic.
  */
 
-import { IEvento } from '../aggregates/evento';
+import { IEvent } from '../aggregates/evento';
 
-export interface IEventoRepository {
+export interface IEventRepository {
     /**
-     * Find all eventos
+     * Find all events
      */
-    findAll(): Promise<IEvento[]>;
+    findAll(): Promise<IEvent[]>;
 
     /**
-     * Find upcoming eventos (dataHora > now)
+     * Find upcoming events (dateTime > now)
      */
-    findUpcoming(limit?: number): Promise<IEvento[]>;
+    findUpcoming(limit?: number): Promise<IEvent[]>;
 
     /**
-     * Create new evento
+     * Create new event
      * @throws RepositoryError if validation or insert fails
      */
-    create(data: CreateEventoDTO): Promise<IEvento>;
+    create(data: CreateEventDTO): Promise<IEvent>;
 }
 
 // ============================================
 // DTOs
 // ============================================
 
-export type CreateEventoDTO = Omit<IEvento, 'id' | 'createdAt' | 'updatedAt'>;
+export type CreateEventDTO = Omit<IEvent, 'id' | 'createdAt' | 'updatedAt'>;
 
-export type UpdateEventoDTO = Partial<CreateEventoDTO>;
+export type UpdateEventDTO = Partial<CreateEventDTO>;
 
-export interface EventoFilters {
-    ministerio?: number;
+export interface EventFilters {
+    ministry?: number;
     startDate?: Date;
     endDate?: Date;
 }

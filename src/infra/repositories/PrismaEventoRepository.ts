@@ -1,5 +1,5 @@
 /**
- * Prisma Implementation of IEventoRepository
+ * Prisma Implementation of IEventRepository
  * 
  * This class belongs to the infrastructure layer.
  * It translates domain operations into Prisma ORM calls.
@@ -8,34 +8,34 @@
 import { Prisma } from '@prisma/client';
 import { prisma } from '../database/prisma';
 import {
-    IEventoRepository,
-    CreateEventoDTO,
-    UpdateEventoDTO,
-    EventoFilters,
+    IEventRepository,
+    CreateEventDTO,
+    UpdateEventDTO,
+    EventFilters,
 } from '@/src/domain/repositories/IEventoRepository';
-import { IEvento, Ministerios } from '@/src/domain/aggregates/evento';
+import { IEvent, Ministries } from '@/src/domain/aggregates/evento';
 import {
     RepositoryError,
     DuplicateEntityError,
 } from '@/src/domain/repositories/errors';
 
-export class PrismaEventoRepository implements IEventoRepository {
-    async findAll(): Promise<IEvento[]> {
+export class PrismaEventRepository implements IEventRepository {
+    async findAll(): Promise<IEvent[]> {
         try {
-            const eventos = await prisma.evento.findMany({
+            const events = await prisma.evento.findMany({
                 include: { ministerio: true },
                 orderBy: { dataHora: 'asc' },
             });
 
-            return eventos.map((evt: any) => this.toDomain(evt));
+            return events.map((evt: any) => this.toDomain(evt));
         } catch (error) {
-            throw new RepositoryError('Failed to find eventos', error);
+            throw new RepositoryError('Failed to find events', error);
         }
     }
 
-    async findUpcoming(limit = 10): Promise<IEvento[]> {
+    async findUpcoming(limit = 10): Promise<IEvent[]> {
         try {
-            const eventos = await prisma.evento.findMany({
+            const events = await prisma.evento.findMany({
                 where: {
                     dataHora: {
                         gte: new Date(),
@@ -46,37 +46,37 @@ export class PrismaEventoRepository implements IEventoRepository {
                 include: { ministerio: true },
             });
 
-            return eventos.map(this.toDomain);
+            return events.map(this.toDomain);
         } catch (error) {
-            throw new RepositoryError('Failed to find upcoming eventos', error);
+            throw new RepositoryError('Failed to find upcoming events', error);
         }
     }
 
-    async create(data: CreateEventoDTO): Promise<IEvento> {
+    async create(data: CreateEventDTO): Promise<IEvent> {
         try {
-            const evento = await prisma.evento.create({
+            const event = await prisma.evento.create({
                 data: {
-                    titulo: data.titulo,
-                    dataHora: data.dataHora,
-                    descricao: data.descricao,
+                    titulo: data.title,
+                    dataHora: data.dateTime,
+                    descricao: data.description,
                     ministerio: {
                         connect: {
-                            nome: this.mapMinisterioToDb(data.ministerio),
+                            nome: this.mapMinistryToDb(data.ministry),
                         },
                     },
                 },
                 include: { ministerio: true },
             });
 
-            return this.toDomain(evento);
+            return this.toDomain(event);
         } catch (error) {
             // Handle unique constraint violations
             if (error instanceof Prisma.PrismaClientKnownRequestError) {
                 if (error.code === 'P2002') {
-                    throw new DuplicateEntityError('Evento', 'titulo', data.titulo);
+                    throw new DuplicateEntityError('Event', 'title', data.title);
                 }
             }
-            throw new RepositoryError('Failed to create evento', error);
+            throw new RepositoryError('Failed to create event', error);
         }
     }
 
@@ -87,50 +87,50 @@ export class PrismaEventoRepository implements IEventoRepository {
     /**
      * Maps Prisma model to Domain entity
      */
-    private toDomain(prismaEvento: any): IEvento {
+    private toDomain(prismaEvent: any): IEvent {
         return {
-            id: prismaEvento.id,
-            dataHora: prismaEvento.dataHora,
-            titulo: prismaEvento.titulo,
-            descricao: prismaEvento.descricao,
-            ministerioId: prismaEvento.ministerioId,
-            ministerio: this.mapMinisterioToDomain(prismaEvento.ministerio?.nome),
-            createdAt: prismaEvento.createdAt,
-            updatedAt: prismaEvento.updatedAt,
+            id: prismaEvent.id,
+            dateTime: prismaEvent.dataHora,
+            title: prismaEvent.titulo,
+            description: prismaEvent.descricao,
+            ministryId: prismaEvent.ministerioId,
+            ministry: this.mapMinistryToDomain(prismaEvent.ministerio?.nome),
+            createdAt: prismaEvent.createdAt,
+            updatedAt: prismaEvent.updatedAt,
         };
     }
 
     /**
-     * Maps domain Ministerio enum to Prisma enum
+     * Maps domain Ministry enum to Prisma enum
      */
-    private mapMinisterioToDb(ministerio: Ministerios): string {
-        const map: Record<Ministerios, string> = {
-            [Ministerios.Geral]: 'GERAL',
-            [Ministerios.Intercessao]: 'INTERCESSAO',
-            [Ministerios.Mulheres]: 'MULHERES',
-            [Ministerios.Infantil]: 'INFANTIL',
-            [Ministerios.Evangelismo]: 'EVANGELISMO',
-            [Ministerios.Midia]: 'MIDIA',
-            [Ministerios.Louvor]: 'LOUVOR',
-            [Ministerios.Jovens]: 'JOVENS',
+    private mapMinistryToDb(ministry: Ministries): string {
+        const map: Record<Ministries, string> = {
+            [Ministries.General]: 'GERAL',
+            [Ministries.Intercession]: 'INTERCESSAO',
+            [Ministries.Women]: 'MULHERES',
+            [Ministries.Children]: 'INFANTIL',
+            [Ministries.Evangelism]: 'EVANGELISMO',
+            [Ministries.Media]: 'MIDIA',
+            [Ministries.Worship]: 'LOUVOR',
+            [Ministries.Youth]: 'JOVENS',
         };
-        return map[ministerio];
+        return map[ministry];
     }
 
     /**
-     * Maps Prisma enum to domain Ministerio enum
+     * Maps Prisma enum to domain Ministry enum
      */
-    private mapMinisterioToDomain(ministerio: string): Ministerios {
-        const map: Record<string, Ministerios> = {
-            GERAL: Ministerios.Geral,
-            INTERCESSAO: Ministerios.Intercessao,
-            MULHERES: Ministerios.Mulheres,
-            INFANTIL: Ministerios.Infantil,
-            EVANGELISMO: Ministerios.Evangelismo,
-            MIDIA: Ministerios.Midia,
-            LOUVOR: Ministerios.Louvor,
-            JOVENS: Ministerios.Jovens,
+    private mapMinistryToDomain(ministry: string): Ministries {
+        const map: Record<string, Ministries> = {
+            GERAL: Ministries.General,
+            INTERCESSAO: Ministries.Intercession,
+            MULHERES: Ministries.Women,
+            INFANTIL: Ministries.Children,
+            EVANGELISMO: Ministries.Evangelism,
+            MIDIA: Ministries.Media,
+            LOUVOR: Ministries.Worship,
+            JOVENS: Ministries.Youth,
         };
-        return map[ministerio] ?? Ministerios.Geral;
+        return map[ministry] ?? Ministries.General;
     }
 }

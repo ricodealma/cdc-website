@@ -1,94 +1,94 @@
-import { IDiaSemana } from '@/src/domain/aggregates/diaSemana';
-import { IEvento } from '@/src/domain/aggregates/evento';
-import { selecionaDiasSemana, selecionaEventos } from '@/src/presentation/components/paraRotas/home/calendario/actions';
+import { IWeekDay } from '@/src/domain/aggregates/diaSemana';
+import { IEvent } from '@/src/domain/aggregates/evento';
+import { fetchWeekDays, fetchEvents } from '@/src/presentation/components/paraRotas/home/calendario/actions';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 
 
 export const useData = () => {
-  const [mesAtual, setMesAtual] = useState(new Date().getMonth());
-  const [anoAtual, setAnoAtual] = useState(new Date().getFullYear());
-  const [modalAberto, setModalAberto] = useState(false);
-  const [eventosSelecionados, setEventosSelecionados] = useState<IEvento[]>([]);
-  const [dataSelecionada, setDataSelecionada] = useState<Date>(new Date());
+  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
+  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedEvents, setSelectedEvents] = useState<IEvent[]>([]);
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
-  const abrirModal = (eventos: IEvento[], dia: number) => {
-    const data = new Date(anoAtual, mesAtual, dia);
-    setEventosSelecionados(eventos);
-    setDataSelecionada(data);
-    setModalAberto(true);
+  const openModal = (events: IEvent[], day: number) => {
+    const date = new Date(currentYear, currentMonth, day);
+    setSelectedEvents(events);
+    setSelectedDate(date);
+    setIsModalOpen(true);
   };
 
-  const fecharModal = () => setModalAberto(false);
+  const closeModal = () => setIsModalOpen(false);
 
-  const hoje = new Date();
-  const diaHoje = hoje.getDate();
-  const mesHoje = hoje.getMonth();
-  const anoHoje = hoje.getFullYear();
+  const today = new Date();
+  const todayDay = today.getDate();
+  const todayMonth = today.getMonth();
+  const todayYear = today.getFullYear();
 
-  // Fetch eventos from the database
-  const eventosQuery = useQuery<IEvento[]>({
+  // Fetch events from the database
+  const eventsQuery = useQuery<IEvent[]>({
     queryKey: ['eventos'],
     queryFn: async () => {
-      const resp = await selecionaEventos();
-      // Ensure dataHora items are Date objects if they were stringified
+      const resp = await fetchEvents();
+      // Ensure dateTime items are Date objects if they were stringified
       return resp.map(e => ({
         ...e,
-        dataHora: new Date(e.dataHora)
+        dateTime: new Date(e.dateTime)
       }));
     },
   });
 
-  // Fetch dias da semana from the database
-  const diasQuery = useQuery<IDiaSemana[]>({
+  // Fetch week days from the database
+  const weekDaysQuery = useQuery<IWeekDay[]>({
     queryKey: ['dias'],
-    queryFn: selecionaDiasSemana,
+    queryFn: fetchWeekDays,
   });
 
-  const meses = [
+  const months = [
     'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
     'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro',
   ];
 
-  const diasNoMes = (ano: number, mes: number) => new Date(ano, mes + 1, 0).getDate();
-  const primeiroDiaDoMes = (ano: number, mes: number) => new Date(ano, mes, 1).getDay();
+  const daysInMonth = (year: number, month: number) => new Date(year, month + 1, 0).getDate();
+  const firstDayOfMonth = (year: number, month: number) => new Date(year, month, 1).getDay();
 
-  const mesAnterior = () => {
-    if (mesAtual === 0) {
-      setMesAtual(11);
-      setAnoAtual(anoAtual - 1);
+  const previousMonth = () => {
+    if (currentMonth === 0) {
+      setCurrentMonth(11);
+      setCurrentYear(currentYear - 1);
     } else {
-      setMesAtual(mesAtual - 1);
+      setCurrentMonth(currentMonth - 1);
     }
   };
 
-  const proximoMes = () => {
-    if (mesAtual === 11) {
-      setMesAtual(0);
-      setAnoAtual(anoAtual + 1);
+  const nextMonth = () => {
+    if (currentMonth === 11) {
+      setCurrentMonth(0);
+      setCurrentYear(currentYear + 1);
     } else {
-      setMesAtual(mesAtual + 1);
+      setCurrentMonth(currentMonth + 1);
     }
   };
 
   return {
-    proximoMes,
-    mesAnterior,
-    primeiroDiaDoMes,
-    diasNoMes,
-    meses,
-    eventos: eventosQuery.data || [],
-    diaHoje,
-    mesHoje,
-    anoHoje,
-    anoAtual,
-    mesAtual,
-    abrirModal,
-    fecharModal,
-    dataSelecionada,
-    eventosSelecionados,
-    modalAberto,
-    eventosQuery,
-    diasQuery,
+    nextMonth,
+    previousMonth,
+    firstDayOfMonth,
+    daysInMonth,
+    months,
+    events: eventsQuery.data || [],
+    todayDay,
+    todayMonth,
+    todayYear,
+    currentYear,
+    currentMonth,
+    openModal,
+    closeModal,
+    selectedDate,
+    selectedEvents,
+    isModalOpen,
+    eventsQuery,
+    weekDaysQuery,
   };
 };

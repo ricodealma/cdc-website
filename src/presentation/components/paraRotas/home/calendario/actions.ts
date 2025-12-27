@@ -1,12 +1,12 @@
 "use server"
 
-import { IEvento } from '@/src/domain/aggregates/evento';
-import { IDiaSemana } from '@/src/domain/aggregates/diaSemana';
-import { PrismaEventoRepository } from "@/src/infra/repositories/PrismaEventoRepository"
+import { IEvent } from '@/src/domain/aggregates/evento';
+import { IWeekDay } from '@/src/domain/aggregates/diaSemana';
+import { PrismaEventRepository } from "@/src/infra/repositories/PrismaEventoRepository"
 import { unstable_cache } from 'next/cache'
 import { prisma } from "@/src/infra/database/prisma"
 
-const eventoRepository = new PrismaEventoRepository()
+const eventRepository = new PrismaEventRepository()
 
 /**
  * Calculates seconds remaining until the next 00:00 (midnight)
@@ -18,12 +18,12 @@ const getSecondsUntilMidnight = () => {
   return Math.floor((midnight.getTime() - now.getTime()) / 1000)
 }
 
-// Função para selecionar eventos com cache
-export const selecionaEventos = async (): Promise<IEvento[]> => {
-  const fetchEventos = unstable_cache(
+// Function to fetch events with cache
+export const fetchEvents = async (): Promise<IEvent[]> => {
+  const fetchEventsFromDb = unstable_cache(
     async () => {
-      console.log('Fetching eventos from database (Cache miss)...')
-      return await eventoRepository.findAll()
+      console.log('Fetching events from database (Cache miss)...')
+      return await eventRepository.findAll()
     },
     ['eventos-calendar'],
     {
@@ -32,17 +32,22 @@ export const selecionaEventos = async (): Promise<IEvento[]> => {
     }
   )
 
-  return await fetchEventos()
+  return await fetchEventsFromDb()
 }
 
-// Função para selecionar dias da semana e mapear para a interface IDiaSemana
-export const selecionaDiasSemana = async (): Promise<IDiaSemana[]> => {
-  const fetchDias = unstable_cache(
+// Function to fetch week days and map to IWeekDay interface
+export const fetchWeekDays = async (): Promise<IWeekDay[]> => {
+  const fetchDaysFromDb = unstable_cache(
     async () => {
-      console.log('Fetching dias da semana from database (Cache miss)...')
-      return await prisma.diaSemana.findMany({
+      console.log('Fetching week days from database (Cache miss)...')
+      const days = await prisma.diaSemana.findMany({
         orderBy: { id: 'asc' }
       });
+      // Map Prisma data to IWeekDay interface
+      return days.map(day => ({
+        id: day.id,
+        name: day.nome
+      }));
     },
     ['dias-semana'],
     {
@@ -51,5 +56,5 @@ export const selecionaDiasSemana = async (): Promise<IDiaSemana[]> => {
     }
   );
 
-  return await fetchDias();
+  return await fetchDaysFromDb();
 }

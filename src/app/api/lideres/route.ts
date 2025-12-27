@@ -1,23 +1,23 @@
 import { NextResponse } from 'next/server';
-import { PrismaLiderRepository } from '@/src/infra/repositories/PrismaLiderRepository';
-import { GetAllLideresUseCase } from '@/src/application/use-cases/lider/GetAllLideres';
+import { PrismaLeaderRepository } from '@/src/infra/repositories/PrismaLiderRepository';
+import { GetAllLeadersUseCase } from '@/src/application/use-cases/lider/GetAllLideres';
 
-const liderRepository = new PrismaLiderRepository();
-const getAllLideresUseCase = new GetAllLideresUseCase(liderRepository);
+const leaderRepository = new PrismaLeaderRepository();
+const getAllLeadersUseCase = new GetAllLeadersUseCase(leaderRepository);
 
 export async function GET(request: Request) {
     try {
         const { searchParams } = new URL(request.url);
         const onlyActive = searchParams.get('active') !== 'false'; // Default true
 
-        const lideres = await getAllLideresUseCase.execute({ onlyActive });
+        const leaders = await getAllLeadersUseCase.execute({ onlyActive });
 
         return NextResponse.json({
             success: true,
-            data: lideres,
+            data: leaders,
         });
     } catch (error) {
-        console.error('Error fetching lideres:', error);
+        console.error('Error fetching leaders:', error);
         return NextResponse.json(
             { success: false, error: 'Internal Server Error' },
             { status: 500 }

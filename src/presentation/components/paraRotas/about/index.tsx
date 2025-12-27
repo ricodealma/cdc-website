@@ -423,10 +423,10 @@ const BaseTeologica = () => {
   );
 };
 
-import { selecionaLideres } from './actions';
+import { fetchLeaders } from './actions';
 
 const Lideres = async () => {
-  const lideres = await selecionaLideres();
+  const leaders = await fetchLeaders();
 
   return (
     <section className="w-full section-padding-y bg-muted/50">
@@ -442,21 +442,21 @@ const Lideres = async () => {
             </p>
           </div>
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 pt-8">
-            {lideres.map((leader, index) => (
+            {leaders.map((leader, index) => (
               <div
                 key={leader.id || index}
                 className="flex flex-col items-center space-y-2"
               >
                 <div className="relative h-32 w-32">
                   <Image
-                    src={leader.fotoUrl || '/placeholder.svg'}
+                    src={leader.photoUrl || '/placeholder.svg'}
                     fill
-                    alt={leader.nome}
+                    alt={leader.name}
                     className="rounded-full object-cover"
                     sizes="128px"
                   />
                 </div>
-                <h3 className="text-xl font-bold">{leader.nome}</h3>
+                <h3 className="text-xl font-bold">{leader.name}</h3>
                 <p className="text-sm text-muted-foreground">{leader.role}</p>
               </div>
             ))}

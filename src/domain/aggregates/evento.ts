@@ -1,21 +1,21 @@
-export interface IEvento {
+export interface IEvent {
   id: number;
-  dataHora: Date;
-  titulo: string;
-  descricao?: string;
-  ministerioId: number;
-  ministerio?: any; // ToDo: Definir interface IMinisterio se necessário
+  dateTime: Date;
+  title: string;
+  description?: string;
+  ministryId: number;
+  ministry?: any; // TODO: Define IMinistry interface if needed
   createdAt?: Date;
   updatedAt?: Date;
 }
 
-export enum Ministerios {
-  Geral = 1,
-  Intercessao,
-  Mulheres,
-  Infantil,
-  Evangelismo,
-  Midia,
-  Louvor,
-  Jovens
+export enum Ministries {
+  General = 1,
+  Intercession,
+  Women,
+  Children,
+  Evangelism,
+  Media,
+  Worship,
+  Youth
 }

@@ -1,12 +1,12 @@
 /**
- * Repository Interface for Lider
+ * Repository Interface for Leader
  */
 
-import { ILider } from '../aggregates/lider';
+import { ILeader } from '../aggregates/lider';
 
-export interface ILiderRepository {
-    findAll(onlyActive?: boolean): Promise<ILider[]>;
+export interface ILeaderRepository {
+    findAll(onlyActive?: boolean): Promise<ILeader[]>;
 }
 
-export type CreateLiderDTO = Omit<ILider, 'id' | 'createdAt' | 'updatedAt'>;
-export type UpdateLiderDTO = Partial<CreateLiderDTO>;
+export type CreateLeaderDTO = Omit<ILeader, 'id' | 'createdAt' | 'updatedAt'>;
+export type UpdateLeaderDTO = Partial<CreateLeaderDTO>;

@@ -9,88 +9,88 @@ import {
 } from '@/src/presentation/components/ui/card';
 import { useData } from '@/src/presentation/hooks/paraRotas/home/calendario/useData';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import ModalEvento from './modalEvento';
+import EventModal from './modalEvento';
 
 export default function Calendario() {
   const {
-    diasNoMes,
-    primeiroDiaDoMes,
-    anoAtual,
-    mesAtual,
-    eventos,
-    diaHoje,
-    mesHoje,
-    anoHoje,
-    meses,
-    mesAnterior,
-    proximoMes,
-    abrirModal,
-    modalAberto,
-    fecharModal,
-    eventosSelecionados,
-    dataSelecionada,
-    eventosQuery, // Acesso ao estado de carregamento e erro
+    daysInMonth,
+    firstDayOfMonth,
+    currentYear,
+    currentMonth,
+    events,
+    todayDay,
+    todayMonth,
+    todayYear,
+    months,
+    previousMonth,
+    nextMonth,
+    openModal,
+    isModalOpen,
+    closeModal,
+    selectedEvents,
+    selectedDate,
+    eventsQuery, // Access to loading and error state
   } = useData();
 
-  // Renderiza o calendário mensal
-  const renderizarCalendario = () => {
-    const totalDias = diasNoMes(anoAtual, mesAtual);
-    const primeiroDia = primeiroDiaDoMes(anoAtual, mesAtual);
-    const dias = [];
+  // Renders the monthly calendar
+  const renderCalendar = () => {
+    const totalDays = daysInMonth(currentYear, currentMonth);
+    const firstDay = firstDayOfMonth(currentYear, currentMonth);
+    const days = [];
 
-    for (let i = 0; i < primeiroDia; i++) {
-      dias.push(
+    for (let i = 0; i < firstDay; i++) {
+      days.push(
         <div
-          key={`vazio-${i}`}
+          key={`empty-${i}`}
           className="h-12 border border-muted bg-muted/20"
         ></div>
       );
     }
 
-    for (let dia = 1; dia <= totalDias; dia++) {
-      const eventosDoDia = eventos.filter(
-        (evento) =>
-          evento.dataHora.getDate() === dia &&
-          evento.dataHora.getMonth() === mesAtual &&
-          evento.dataHora.getFullYear() === anoAtual
+    for (let day = 1; day <= totalDays; day++) {
+      const dayEvents = events.filter(
+        (event) =>
+          event.dateTime.getDate() === day &&
+          event.dateTime.getMonth() === currentMonth &&
+          event.dateTime.getFullYear() === currentYear
       );
 
-      const isHoje =
-        dia === diaHoje && mesAtual === mesHoje && anoAtual === anoHoje;
+      const isToday =
+        day === todayDay && currentMonth === todayMonth && currentYear === todayYear;
 
-      dias.push(
+      days.push(
         <div
-          key={`dia-${dia}`}
-          className={`min-h-12 border border-muted p-1 cursor-pointer ${eventosDoDia.length > 0
+          key={`day-${day}`}
+          className={`min-h-12 border border-muted p-1 cursor-pointer ${dayEvents.length > 0
             ? 'bg-primary/5 hover:bg-primary/10'
             : 'bg-background'
-            } ${isHoje ? 'ring-2 ring-primary rounded-md' : ''}`}
+            } ${isToday ? 'ring-2 ring-primary rounded-md' : ''}`}
           onClick={() =>
-            eventosDoDia.length > 0 && abrirModal(eventosDoDia, dia)
+            dayEvents.length > 0 && openModal(dayEvents, day)
           }
         >
           <div className="flex justify-between items-start">
-            <span className="text-sm font-medium">{dia}</span>
-            {eventosDoDia.length > 0 && (
+            <span className="text-sm font-medium">{day}</span>
+            {dayEvents.length > 0 && (
               <span className="inline-flex items-center rounded-full bg-primary px-2 py-1 text-xs font-medium text-primary-foreground">
-                {eventosDoDia.length}
+                {dayEvents.length}
               </span>
             )}
           </div>
-          {eventosDoDia.length > 0 && eventosDoDia.length <= 2 && (
+          {dayEvents.length > 0 && dayEvents.length <= 2 && (
             <div className="mt-1 space-y-1">
-              {eventosDoDia.map((evento, index) => (
+              {dayEvents.map((event, index) => (
                 <div key={index} className="text-xs truncate">
-                  {evento.titulo}
+                  {event.title}
                 </div>
               ))}
             </div>
           )}
-          {eventosDoDia.length > 2 && (
+          {dayEvents.length > 2 && (
             <div className="mt-1">
-              <div className="text-xs truncate">{eventosDoDia[0].titulo}</div>
+              <div className="text-xs truncate">{dayEvents[0].title}</div>
               <div className="text-xs text-muted-foreground">
-                +{eventosDoDia.length - 1} mais
+                +{dayEvents.length - 1} mais
               </div>
             </div>
           )}
@@ -98,10 +98,10 @@ export default function Calendario() {
       );
     }
 
-    return dias;
+    return days;
   };
 
-  // Verifica se a data está na mesma semana
+  // Checks if date is in the same week
   const isSameWeek = (date: Date): boolean => {
     const now = new Date();
     const startOfWeek = new Date(now);
@@ -119,23 +119,23 @@ export default function Calendario() {
   };
 
 
-  // Renderiza a lista de eventos da semana atual
-  const renderizarListaEventos = () => {
-    const eventosFiltrados = eventos
-      .filter((evento) => isSameWeek(evento.dataHora))
-      .sort((a, b) => a.dataHora.getTime() - b.dataHora.getTime());
+  // Renders the list of events for the current week
+  const renderEventsList = () => {
+    const filteredEvents = events
+      .filter((event) => isSameWeek(event.dateTime))
+      .sort((a, b) => a.dateTime.getTime() - b.dateTime.getTime());
 
     return (
       <div className="space-y-4 mt-8">
         <h3 className="text-xl font-bold">Eventos desta Semana</h3>
-        {eventosFiltrados.length > 0 ? (
+        {filteredEvents.length > 0 ? (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {eventosFiltrados.map((evento, index) => (
+            {filteredEvents.map((event, index) => (
               <Card key={index}>
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-lg">{evento.titulo}</CardTitle>
+                  <CardTitle className="text-lg">{event.title}</CardTitle>
                   <div className="text-sm text-muted-foreground">
-                    {evento.dataHora.toLocaleDateString('pt-BR', {
+                    {event.dateTime.toLocaleDateString('pt-BR', {
                       weekday: 'long',
                       month: 'long',
                       day: 'numeric',
@@ -143,7 +143,7 @@ export default function Calendario() {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm">{evento.dataHora.toLocaleTimeString('pt-BR')}</p>
+                  <p className="text-sm">{event.dateTime.toLocaleTimeString('pt-BR')}</p>
                 </CardContent>
               </Card>
             ))}
@@ -161,23 +161,23 @@ export default function Calendario() {
     <div className="w-full max-w-4xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
         <h3 className="text-2xl font-bold">
-          {meses[mesAtual]} {anoAtual}
+          {months[currentMonth]} {currentYear}
         </h3>
         <div className="flex items-center space-x-2">
-          <Button variant="outline" size="icon" onClick={mesAnterior}>
+          <Button variant="outline" size="icon" onClick={previousMonth}>
             <ChevronLeft className="h-4 w-4" />
             <span className="sr-only">Mês anterior</span>
           </Button>
-          <Button variant="outline" size="icon" onClick={proximoMes}>
+          <Button variant="outline" size="icon" onClick={nextMonth}>
             <ChevronRight className="h-4 w-4" />
             <span className="sr-only">Próximo mês</span>
           </Button>
         </div>
       </div>
 
-      {eventosQuery.isLoading ? (
+      {eventsQuery.isLoading ? (
         <p>Carregando eventos...</p>
-      ) : eventosQuery.error ? (
+      ) : eventsQuery.error ? (
         <p>Erro ao carregar eventos. Tente novamente mais tarde.</p>
       ) : (
         <div className="grid grid-cols-7 gap-px">
@@ -189,16 +189,16 @@ export default function Calendario() {
               {dia}
             </div>
           ))}
-          {renderizarCalendario()}
+          {renderCalendar()}
         </div>
       )}
 
-      {renderizarListaEventos()}
-      <ModalEvento
-        aberto={modalAberto}
-        aoFechar={fecharModal}
-        eventos={eventosSelecionados}
-        data={dataSelecionada}
+      {renderEventsList()}
+      <EventModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        events={selectedEvents}
+        date={selectedDate}
       />
     </div>
   );
