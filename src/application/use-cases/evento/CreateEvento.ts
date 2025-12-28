@@ -13,6 +13,7 @@ export const CreateEventInputSchema = z.object({
     dateTime: z.coerce.date(),
     description: z.string().optional(),
     ministry: z.nativeEnum(Ministries),
+    ministryId: z.number(),
 });
 
 export type CreateEventInput = z.infer<typeof CreateEventInputSchema>;

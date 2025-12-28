@@ -6,14 +6,18 @@ import { useState } from 'react';
 
 
 export const useData = () => {
-  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
-  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+  const [viewDate, setViewDate] = useState(new Date());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedEvents, setSelectedEvents] = useState<IEvent[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
-  const openModal = (events: IEvent[], day: number) => {
-    const date = new Date(currentYear, currentMonth, day);
+  const currentMonth = viewDate.getMonth();
+  const currentYear = viewDate.getFullYear();
+
+  const openModal = (events: IEvent[], dateOrDay: Date | number) => {
+    const date = typeof dateOrDay === 'number'
+      ? new Date(currentYear, currentMonth, dateOrDay)
+      : dateOrDay;
     setSelectedEvents(events);
     setSelectedDate(date);
     setIsModalOpen(true);
@@ -31,7 +35,6 @@ export const useData = () => {
     queryKey: ['eventos'],
     queryFn: async () => {
       const resp = await fetchEvents();
-      // Ensure dateTime items are Date objects if they were stringified
       return resp.map(e => ({
         ...e,
         dateTime: new Date(e.dateTime)
@@ -39,7 +42,6 @@ export const useData = () => {
     },
   });
 
-  // Fetch week days from the database
   const weekDaysQuery = useQuery<IWeekDay[]>({
     queryKey: ['dias'],
     queryFn: fetchWeekDays,
@@ -54,26 +56,43 @@ export const useData = () => {
   const firstDayOfMonth = (year: number, month: number) => new Date(year, month, 1).getDay();
 
   const previousMonth = () => {
-    if (currentMonth === 0) {
-      setCurrentMonth(11);
-      setCurrentYear(currentYear - 1);
-    } else {
-      setCurrentMonth(currentMonth - 1);
-    }
+    setViewDate(prev => {
+      const d = new Date(prev);
+      d.setMonth(d.getMonth() - 1);
+      return d;
+    });
   };
 
   const nextMonth = () => {
-    if (currentMonth === 11) {
-      setCurrentMonth(0);
-      setCurrentYear(currentYear + 1);
-    } else {
-      setCurrentMonth(currentMonth + 1);
-    }
+    setViewDate(prev => {
+      const d = new Date(prev);
+      d.setMonth(d.getMonth() + 1);
+      return d;
+    });
+  };
+
+  const previousWeek = () => {
+    setViewDate(prev => {
+      const d = new Date(prev);
+      d.setDate(d.getDate() - 7);
+      return d;
+    });
+  };
+
+  const nextWeek = () => {
+    setViewDate(prev => {
+      const d = new Date(prev);
+      d.setDate(d.getDate() + 7);
+      return d;
+    });
   };
 
   return {
     nextMonth,
     previousMonth,
+    nextWeek,
+    previousWeek,
+    viewDate,
     firstDayOfMonth,
     daysInMonth,
     months,

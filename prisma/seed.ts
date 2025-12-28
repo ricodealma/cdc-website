@@ -102,7 +102,7 @@ const lideresData = [
 const eventosData = [
     // ========== 2025 Events ==========
     {
-        data: new Date(2025, 3, 18), // Mês em JS é 0-indexed (3 = Abril)
+        data: new Date(2025, 3, 18), // Abril
         titulo: 'Culto Pascal',
         horario: '19:00',
         ministerioId: Ministerios.Geral,
@@ -186,117 +186,117 @@ const eventosData = [
         ministerioId: Ministerios.Geral,
     },
     {
-        data: new Date(2025, 11, 28), // 11 = Dezembro (mês 0-indexed)
+        data: new Date(2025, 11, 28), // Dezembro
         titulo: 'Culto de Gratidão',
         horario: '18:30',
         ministerioId: Ministerios.Geral,
     },
+    {
+        data: new Date(2025, 11, 31),
+        titulo: 'Culto da Virada',
+        horario: '22:00',
+        ministerioId: Ministerios.Geral,
+    },
 
-    // ========== 2026 Events ==========
+    // ========== Agenda 2026 ==========
     {
-        data: new Date(2026, 1, 11), // Fevereiro
-        titulo: 'Congresso de Mulheres',
-        horario: '19:00',
-        ministerioId: Ministerios.Mulheres,
-    },
-    {
-        data: new Date(2026, 2, 25), // Março
-        titulo: 'Aniversário da Igreja',
-        horario: '19:00',
-        ministerioId: Ministerios.Geral,
-    },
-    {
-        data: new Date(2026, 2, 26), // Março
-        titulo: 'Aniversário da Igreja',
+        data: new Date(2026, 1, 22), // 22/02
+        titulo: 'Curso de Membros (Início)',
         horario: '18:30',
         ministerioId: Ministerios.Geral,
     },
     {
-        data: new Date(2026, 3, 7), // Abril
-        titulo: 'Páscoa',
-        horario: '19:00',
-        ministerioId: Ministerios.Geral,
-    },
-    {
-        data: new Date(2026, 3, 8), // Abril
-        titulo: 'Páscoa',
-        horario: '18:30',
-        ministerioId: Ministerios.Geral,
-    },
-    {
-        data: new Date(2026, 3, 9), // Abril
-        titulo: 'Páscoa',
-        horario: '18:30',
-        ministerioId: Ministerios.Geral,
-    },
-    {
-        data: new Date(2026, 4, 27), // Maio
-        titulo: 'Pentecostes',
-        horario: '19:00',
-        ministerioId: Ministerios.Geral,
-    },
-    {
-        data: new Date(2026, 4, 28), // Maio
-        titulo: 'Pentecostes',
-        horario: '18:30',
-        ministerioId: Ministerios.Geral,
-    },
-    {
-        data: new Date(2026, 5, 17), // Junho
+        data: new Date(2026, 1, 28), // 28/02
         titulo: 'Encontro de Casais',
         horario: '19:00',
         ministerioId: Ministerios.Geral,
     },
     {
-        data: new Date(2026, 7, 19), // Agosto
+        data: new Date(2026, 2, 3), // 03/03
+        titulo: 'Aniversário da Igreja',
+        horario: '20:00',
+        ministerioId: Ministerios.Geral,
+    },
+    {
+        data: new Date(2026, 2, 5), // 05/03
+        titulo: 'Aniversário da Igreja',
+        horario: '20:00',
+        ministerioId: Ministerios.Geral,
+    },
+    {
+        data: new Date(2026, 3, 19), // 19/04
+        titulo: 'Culto do Amigo',
+        horario: '18:30',
+        ministerioId: Ministerios.Evangelismo,
+    },
+    {
+        data: new Date(2026, 4, 1), // 01/05
+        titulo: 'Dia de Lazer',
+        horario: '08:00',
+        ministerioId: Ministerios.Geral,
+    },
+    {
+        data: new Date(2026, 4, 23), // 23/05
+        titulo: 'Pentecostes',
+        horario: '19:00',
+        ministerioId: Ministerios.Geral,
+    },
+    {
+        data: new Date(2026, 4, 24), // 24/05
+        titulo: 'Pentecostes',
+        horario: '18:30',
+        ministerioId: Ministerios.Geral,
+    },
+    {
+        data: new Date(2026, 5, 20), // 20/06
+        titulo: 'Encontro de Casais',
+        horario: '19:00',
+        ministerioId: Ministerios.Geral,
+    },
+    {
+        data: new Date(2026, 7, 8), // 08/08
         titulo: '24h de Adoração',
         horario: '00:00',
         ministerioId: Ministerios.Louvor,
     },
     {
-        data: new Date(2026, 7, 20), // Agosto
-        titulo: '24h de Adoração',
-        horario: '00:00',
-        ministerioId: Ministerios.Louvor,
-    },
-    {
-        data: new Date(2026, 8, 24), // Setembro
-        titulo: 'Culto dos Jovens',
+        data: new Date(2026, 8, 13), // 13/09
+        titulo: 'Culto Liderado pelos Jovens',
         horario: '18:30',
         ministerioId: Ministerios.Jovens,
     },
     {
-        data: new Date(2026, 9, 1), // Outubro
-        titulo: 'Culto das Crianças',
+        data: new Date(2026, 9, 4), // 04/10
+        titulo: 'Culto Liderado pelas Crianças',
         horario: '18:30',
         ministerioId: Ministerios.Infantil,
     },
     {
-        data: new Date(2026, 9, 20), // Outubro
-        titulo: 'Acampamento e Tabernáculos',
+        data: new Date(2026, 10, 6), // 06/11
+        titulo: 'Acampamento',
         horario: '00:00',
         ministerioId: Ministerios.Geral,
     },
     {
-        data: new Date(2026, 9, 21), // Outubro
-        titulo: 'Acampamento e Tabernáculos',
+        data: new Date(2026, 10, 7), // 07/11
+        titulo: 'Acampamento',
         horario: '00:00',
         ministerioId: Ministerios.Geral,
     },
     {
-        data: new Date(2026, 9, 22), // Outubro
-        titulo: 'Acampamento e Tabernáculos',
+        data: new Date(2026, 10, 8), // 08/11
+        titulo: 'Acampamento',
         horario: '00:00',
         ministerioId: Ministerios.Geral,
     },
     {
-        data: new Date(2026, 11, 27), // Dezembro
+        data: new Date(2026, 11, 27), // 27/12
         titulo: 'Culto de Gratidão',
         horario: '18:30',
         ministerioId: Ministerios.Geral,
     },
     {
-        data: new Date(2026, 11, 31), // Dezembro
+        data: new Date(2026, 11, 31), // 31/12
         titulo: 'Culto da Virada',
         horario: '22:00',
         ministerioId: Ministerios.Geral,
